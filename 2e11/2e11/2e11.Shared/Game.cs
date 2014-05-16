@@ -37,7 +37,8 @@ namespace _2e11
         bool cellsAvailable(){
             for (ushort i = 0; i < boardSize; i++){
                 for (ushort j = 0; j < boardSize; j++){
-                    if (board[i][j] == 0){
+                    if (board[i][j].getAvailability())
+                    {
                         return true;
                     }
                 }

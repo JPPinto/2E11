@@ -7,12 +7,12 @@ namespace _2e11
     class Tile
     {
         Position pos;
-
         ushort value;
+        bool isAvailable;
 
         Tile()
-        { 
-            
+        {
+            isAvailable = true;
         }
 
         int getValueRepresentation() {
@@ -27,6 +27,12 @@ namespace _2e11
 
         Position getPosition() {
             return pos;
+        }
+
+        public bool getAvailability()
+        {
+            return isAvailable;
+
         }
     }
 }
