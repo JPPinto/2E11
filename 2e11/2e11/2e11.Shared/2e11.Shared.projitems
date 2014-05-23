@@ -16,7 +16,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Game.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Position.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tile.cs" />
   </ItemGroup>
 </Project>
