@@ -8,19 +8,27 @@ namespace _2e11
     {
         bool isWon;
         bool isLost;
-        ushort boardSize = 4;
+        static ushort boardSize = 4;
+        static ushort startTiles = 2;
+
+        int score;
 
         Tile[][] board;
-        
+        Random rnd;
 
         // Empty constructor
-        Game(){
-            initializeBoard();
-            
+        Game() {
+            rnd = new Random();
+            score = 0;
+            isWon = false;
+            isLost = false;
 
+            initializeBoard();
+            addStartTiles();
         }
 
-        void initializeBoard() {
+        void initializeBoard()
+        {
             board = new Tile[boardSize][];
 
             for (ushort i = 0; i < boardSize; i++)
@@ -47,13 +55,64 @@ namespace _2e11
             return false;
         }
 
+        ushort getNumberOfAvailableCells()
+        {
+            ushort ret = 0;
+            for (ushort i = 0; i < boardSize; i++)
+            {
+                for (ushort j = 0; j < boardSize; j++)
+                {
+                    if (board[i][j].getAvailability())
+                    {
+                        ret++;
+                    }
+                }
+            }
+
+            return ret;
+        }
+
         void addRandomTile() {
             if (cellsAvailable()) {
-                //var value = Math.random() < 0.9 ? 2 : 4;
-                //var tile = new Tile(this.grid.randomAvailableCell(), value);
+                ushort value = (ushort) rnd.Next(1, 2);
 
-                //this.grid.insertTile(tile);
+                ushort pos = (ushort)rnd.Next(0, getNumberOfAvailableCells());
+
+                ushort ret = 0;
+                for (ushort i = 0; i < boardSize; i++)
+                {
+                    for (ushort j = 0; j < boardSize; j++)
+                    {
+                        if (board[i][j].getAvailability())
+                        {
+                            ret++;
+                        }
+
+                        if (ret == pos) {
+                            board[i][j].setValue(value);
+                        }
+                    }
+                }
             }
         }
+
+        void updateScore()
+        {
+            //this.clearContainer(this.scoreContainer);
+
+            var difference = score - this.score;
+
+            //this.scoreContainer.textContent = this.score;
+
+        }
+
+        // Set up the initial tiles to start the game with
+        void addStartTiles() {
+            for (var i = 0; i < startTiles; i++) {
+                this.addRandomTile();
+            }
+        }
+
+
     }
 }

@@ -7,7 +7,6 @@ namespace _2e11
     class Tile
     {
         //static int representation[] = new int[17] {2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768,65536,131072};
-        Position pos;
         ushort value;
         bool isAvailable;
 
@@ -25,15 +24,18 @@ namespace _2e11
 
             return result;
         }
-
-        Position getPosition() {
-            return pos;
-        }
-
         public bool getAvailability()
         {
             return isAvailable;
 
+        }
+        public void setValue(ushort val)
+        {
+            value = val;
+        }
+        void clear() 
+        {
+            isAvailable = true;
         }
     }
 }
