@@ -2,43 +2,36 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace _2e11
-{
-    class Tile
-    {
+namespace _2e11 {
+    class Tile {
         ushort value;
         bool isAvailable;
 
-        Tile()
-        {
+        Tile() {
             isAvailable = true;
         }
 
         int getValueRepresentation() {
             int result = 2;
 
-            for (ushort i = value; i > 0; i++ ) {
+            for (ushort i = value; i > 0; i++) {
                 result *= result;
             }
 
             return result;
         }
-        public bool getAvailability()
-        {
+        public bool getAvailability() {
             return isAvailable;
 
         }
-        public void setValue(ushort val)
-        {
+        public void setValue(ushort val) {
             value = val;
         }
-        public void clear() 
-        {
+        public void clear() {
             isAvailable = true;
         }
 
-        public ushort getValue()
-        {
+        public ushort getValue() {
             return value;
         }
     }
