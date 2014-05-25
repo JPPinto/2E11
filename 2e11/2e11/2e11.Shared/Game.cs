@@ -170,18 +170,72 @@ namespace _2e11 {
             }
         }
         public void moveUp() {
-            for (ushort i = 0; i < boardSize; i++) {
-                for (ushort j = 0; j < boardSize; j++) {
+            bool needsReRun = true;
+            bool actualMoveDone = false;
+
+            while (needsReRun) {
+                needsReRun = false;
+
+                for (ushort i = 0; i < boardSize - 1; i++) {
+                    for (ushort j = 0; j < boardSize; j++) {
+                        // Move
+                        if (board[i, j].getAvailability() && !(board[i + 1, j].getAvailability())) {
+                            board[i, j].setValue(board[i + 1, j].getValue());
+                            board[i + 1, j].clear();
+                            needsReRun = true;
+                            actualMoveDone = true;
+                            break;
+                        }
+
+                        // Merge
+                        if ((board[i, j].getValue() != 0) && board[i, j].getValue() == board[i + 1, j].getValue()) {
+                            board[i, j].increaseValue();
+                            board[i + 1, j].clear();
+                            needsReRun = true;
+                            actualMoveDone = true;
+                            break;
+                        }
+                    }
                 }
             }
-            afterMoveChecks();
+
+            if (actualMoveDone) {
+                afterMoveChecks();
+            }
         }
         public void moveDown() {
-            for (ushort i = 0; i < boardSize; i++) {
-                for (ushort j = 0; j < boardSize; j++) {
+            bool needsReRun = true;
+            bool actualMoveDone = false;
+
+            while (needsReRun) {
+                needsReRun = false;
+
+                for (ushort i = 0; i < boardSize - 1; i++) {
+                    for (ushort j = 0; j < boardSize; j++) {
+                        // Move
+                        if (board[i + 1, j].getAvailability() && !(board[i, j].getAvailability())) {
+                            board[i + 1, j].setValue(board[i, j].getValue());
+                            board[i, j].clear();
+                            needsReRun = true;
+                            actualMoveDone = true;
+                            break;
+                        }
+
+                        // Merge
+                        if ((board[i, j].getValue() != 0) && board[i, j].getValue() == board[i + 1, j].getValue()) {
+                            board[i + 1, j].increaseValue();
+                            board[i, j].clear();
+                            needsReRun = true;
+                            actualMoveDone = true;
+                            break;
+                        }
+                    }
                 }
             }
-            afterMoveChecks();
+
+            if (actualMoveDone) {
+                afterMoveChecks();
+            }
         }
         void afterMoveChecks() {
             updateVictoryBool();
