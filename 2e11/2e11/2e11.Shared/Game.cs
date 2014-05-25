@@ -24,13 +24,10 @@ namespace _2e11 {
             resetBoard();
             addStartTiles();
         }
-
-        public void test() {
-            if (board[0,0] == null) { 
-                throw new Exception("Null pointer");
-            }
+        public void newGame() {
+            resetBoard();
+            addStartTiles();
         }
-
         void initializeBoard() {
             board = new Tile[boardSize, boardSize];
 
@@ -40,7 +37,7 @@ namespace _2e11 {
                 }
             }
         }
-        public void resetBoard() {
+        void resetBoard() {
             rnd = new Random();
             score = 0;
             isWon = false;
@@ -62,7 +59,6 @@ namespace _2e11 {
             }
             return false;
         }
-
         ushort getNumberOfAvailableCells() {
             ushort ret = 0;
             for (ushort i = 0; i < boardSize; i++) {
@@ -75,7 +71,6 @@ namespace _2e11 {
 
             return ret;
         }
-
         void addRandomTile() {
             if (cellsAvailable()) {
                 ushort value = (ushort)rnd.Next(1, 2);
@@ -96,51 +91,41 @@ namespace _2e11 {
                 }
             }
         }
-
         void updateScore(ushort mergedX, ushort mergedY) {
-            score += values[board[mergedX, mergedY].getValue()];
+            score += values[board[mergedX, mergedY].getValue() - 1];
         }
-
-        // Set up the initial tiles to start the game with
         void addStartTiles() {
             for (var i = 0; i < startTiles; i++) {
-                this.addRandomTile();
+                addRandomTile();
             }
         }
-
         public Boolean getIsWon() { 
             return isWon;
         }
-
         public void moveLeft() {
 
         }
-
         public void moveRight() {
 
         }
-
         public void moveUp() {
 
         }
-
         public void moveDown() {
 
         }
-
         public String toString() {
             String ret = "";
 
             for (ushort i = 0; i < boardSize; i++) {
                 for (ushort j = 0; j < boardSize; j++) {
                     if (!board[i, j].getAvailability()) {
-                        ret += representation[board[i, j].getValue()];
+                        ret += representation[board[i, j].getValue() - 1];
                     }
                     ret+="; ";
                 }
                 ret+="\n";
             }
-
             return ret;
         }
     }

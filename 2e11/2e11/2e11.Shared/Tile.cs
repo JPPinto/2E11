@@ -26,6 +26,7 @@ namespace _2e11 {
         }
         public void setValue(ushort val) {
             value = val;
+            isAvailable = false;
         }
         public void clear() {
             isAvailable = true;
