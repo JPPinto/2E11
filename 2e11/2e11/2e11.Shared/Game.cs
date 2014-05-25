@@ -4,7 +4,9 @@ using System.Text;
 
 namespace _2e11 {
     class Game {
-        static int[] representation = { 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072 };
+        static String[] representation = { "2", "4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048", "4096", "8192", "16384", "32768", "65536", "131072"};
+        static int[] values = { 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072 };
+
         bool isWon;
         bool isLost;
         static ushort boardSize = 4;
@@ -96,7 +98,7 @@ namespace _2e11 {
         }
 
         void updateScore(ushort mergedX, ushort mergedY) {
-            score += representation[board[mergedX, mergedY].getValue()];
+            score += values[board[mergedX, mergedY].getValue()];
         }
 
         // Set up the initial tiles to start the game with
@@ -106,6 +108,40 @@ namespace _2e11 {
             }
         }
 
+        public Boolean getIsWon() { 
+            return isWon;
+        }
 
+        public void moveLeft() {
+
+        }
+
+        public void moveRight() {
+
+        }
+
+        public void moveUp() {
+
+        }
+
+        public void moveDown() {
+
+        }
+
+        public String toString() {
+            String ret = "";
+
+            for (ushort i = 0; i < boardSize; i++) {
+                for (ushort j = 0; j < boardSize; j++) {
+                    if (!board[i, j].getAvailability()) {
+                        ret += representation[board[i, j].getValue()];
+                    }
+                    ret+="; ";
+                }
+                ret+="\n";
+            }
+
+            return ret;
+        }
     }
 }
