@@ -16,12 +16,28 @@ namespace _2e11 {
         Random rnd;
 
         // Initial constructor (only call once)
-        Game() {
-            board = new Tile[boardSize, boardSize];
+        public Game() {
+            initializeBoard();
+
             resetBoard();
             addStartTiles();
         }
 
+        public void test() {
+            if (board[0,0] == null) { 
+                throw new Exception("Null pointer");
+            }
+        }
+
+        void initializeBoard() {
+            board = new Tile[boardSize, boardSize];
+
+            for (ushort i = 0; i < boardSize; i++) {
+                for (ushort j = 0; j < boardSize; j++) {
+                    board[i, j] = new Tile();
+                }
+            }
+        }
         public void resetBoard() {
             rnd = new Random();
             score = 0;

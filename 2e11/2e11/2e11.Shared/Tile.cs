@@ -7,7 +7,7 @@ namespace _2e11 {
         ushort value;
         bool isAvailable;
 
-        Tile() {
+        public Tile() {
             isAvailable = true;
         }
 

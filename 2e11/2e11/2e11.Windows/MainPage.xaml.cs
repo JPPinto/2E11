@@ -25,6 +25,10 @@ namespace _2e11
         public MainPage()
         {
             this.InitializeComponent();
+
+            // Create game object
+            Game test = new Game();
+            test.test();
         }
     }
 }
