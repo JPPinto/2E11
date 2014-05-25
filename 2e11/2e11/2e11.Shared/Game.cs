@@ -104,6 +104,7 @@ namespace _2e11 {
         }
         public void moveLeft() {
             bool needsReRun = true;
+            bool actualMoveDone = false;
 
             while (needsReRun) {
                 needsReRun = false;
@@ -111,32 +112,62 @@ namespace _2e11 {
                 for (ushort i = 0; i < boardSize; i++) {
                     for (ushort j = 0; j < boardSize - 1; j++) {
                         // Move
-                        if (board[i, j].getAvailability() == !(board[i, j + 1].getAvailability())) {
+                        if (board[i, j].getAvailability() && !(board[i, j + 1].getAvailability())) {
                             board[i, j].setValue(board[i, j + 1].getValue());
                             board[i, j + 1].clear();
                             needsReRun = true;
+                            actualMoveDone = true;
                             break;
                         }
 
                         // Merge
-                        if (board[i, j].getValue() == board[i, j + 1].getValue()) {
+                        if ((board[i,j].getValue() != 0) && board[i, j].getValue() == board[i, j + 1].getValue()) {
                             board[i, j].increaseValue();
                             board[i, j + 1].clear();
                             needsReRun = true;
+                            actualMoveDone = true;
                             break;
                         }
                     }
                 }
             }
 
-            afterMoveChecks();
+            if (actualMoveDone) {
+                afterMoveChecks();
+            }
         }
         public void moveRight() {
-            for (ushort i = 0; i < boardSize; i++) {
-                for (ushort j = 0; j < boardSize; j++) {
+            bool needsReRun = true;
+            bool actualMoveDone = false;
+
+            while (needsReRun) {
+                needsReRun = false;
+                for (ushort i = 0; i < boardSize; i++) {
+                    for (ushort j = 0; j < boardSize - 1; j++) {
+                        // Move
+                        if (board[i, j + 1].getAvailability() && !(board[i, j].getAvailability())) {
+                            board[i, j + 1].setValue(board[i, j].getValue());
+                            board[i, j].clear();
+                            needsReRun = true;
+                            actualMoveDone = true;
+                            break;
+                        }
+
+                        // Merge
+                        if ((board[i, j].getValue() != 0) && board[i, j].getValue() == board[i, j + 1].getValue()) {
+                            board[i, j + 1].increaseValue();
+                            board[i, j].clear();
+                            needsReRun = true;
+                            actualMoveDone = true;
+                            break;
+                        }
+                    }
                 }
             }
-            afterMoveChecks();
+
+            if (actualMoveDone) {
+                afterMoveChecks();
+            }
         }
         public void moveUp() {
             for (ushort i = 0; i < boardSize; i++) {
@@ -155,6 +186,10 @@ namespace _2e11 {
         void afterMoveChecks() {
             updateVictoryBool();
             updateLostBool();
+
+            if (!isLost) { 
+                addRandomTile();
+            }
         }
         void updateVictoryBool() {
 

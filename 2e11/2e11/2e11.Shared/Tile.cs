@@ -8,12 +8,10 @@ namespace _2e11 {
         bool isAvailable;
 
         public Tile() {
-            value = 0;
-            isAvailable = true;
+            clear();
         }
         public bool getAvailability() {
             return isAvailable;
-
         }
         public void setValue(ushort val) {
             value = val;
