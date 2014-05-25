@@ -8,17 +8,8 @@ namespace _2e11 {
         bool isAvailable;
 
         public Tile() {
+            value = 0;
             isAvailable = true;
-        }
-
-        int getValueRepresentation() {
-            int result = 2;
-
-            for (ushort i = value; i > 0; i++) {
-                result *= result;
-            }
-
-            return result;
         }
         public bool getAvailability() {
             return isAvailable;
@@ -28,7 +19,13 @@ namespace _2e11 {
             value = val;
             isAvailable = false;
         }
+        public void increaseValue() {
+            if (!isAvailable) { 
+                value++;
+            }
+        }
         public void clear() {
+            value = 0;
             isAvailable = true;
         }
 
