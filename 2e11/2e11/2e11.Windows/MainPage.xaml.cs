@@ -28,7 +28,6 @@ namespace _2e11
 
             // Create game object
             Game test = new Game();
-            test.test();
         }
     }
 }

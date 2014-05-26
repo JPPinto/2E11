@@ -22,9 +22,13 @@ namespace _2e11
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        Game game;
+
         public MainPage()
         {
             this.InitializeComponent();
+            
+            game = new Game();
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
@@ -43,6 +47,16 @@ namespace _2e11
             // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
+        }
+
+        private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            
         }
     }
 }
