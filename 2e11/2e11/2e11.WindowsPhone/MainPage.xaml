@@ -9,7 +9,13 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <Grid HorizontalAlignment="Left" Height="446" Margin="10,0,0,69" VerticalAlignment="Bottom" Width="380">
+        <Grid x:Name="gameGrid" HorizontalAlignment="Left" Height="446" Margin="0,0,0,194" VerticalAlignment="Bottom" Width="400">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="#FF0F179C" Offset="0.277"/>
+                </LinearGradientBrush>
+            </Grid.Background>
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -23,10 +29,29 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
         </Grid>
-        <Rectangle Fill="#FF2B2BEC" HorizontalAlignment="Left" Height="55" Margin="10,576,0,0" Stroke="Black" VerticalAlignment="Top" Width="185"/>
-        <Rectangle Fill="#FF2B2BEC" HorizontalAlignment="Left" Height="55" Margin="205,576,0,0" Stroke="Black" VerticalAlignment="Top" Width="185"/>
-        <TextBlock IsTextScaleFactorEnabled="True" HorizontalAlignment="Left" Height="17" Margin="10,10,0,0" TextWrapping="Wrap" Text="SCORE:" VerticalAlignment="Top" Width="120" SelectionChanged="TextBlock_SelectionChanged" FontSize="18" FontFamily="Andy" IsColorFontEnabled="True" Foreground="#FF6363FF" />
-        <TextBlock TextAlignment="Right" IsTextScaleFactorEnabled="True" HorizontalAlignment="Left" Height="24" Margin="10,27,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="185" SelectionChanged="TextBlock_SelectionChanged" FontSize="24" FontFamily="Andy" IsColorFontEnabled="True" Foreground="#FF6363FF" IsTextSelectionEnabled="True" />
+        <TextBlock IsTextScaleFactorEnabled="True" HorizontalAlignment="Left" Height="17" Margin="9,580,0,0" TextWrapping="Wrap" Text="SCORE:" VerticalAlignment="Top" Width="120" SelectionChanged="TextBlock_SelectionChanged" FontSize="18" FontFamily="Andy" IsColorFontEnabled="True" Foreground="#FF6363FF" />
+        <TextBlock x:Name="score_value" TextAlignment="Left" IsTextScaleFactorEnabled="True" HorizontalAlignment="Left" Height="24" Margin="10,606,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="185" FontSize="24" FontFamily="Andy" IsColorFontEnabled="True" Foreground="#FF6363FF" IsTextSelectionEnabled="True" />
+
+        <Image x:Name="top_arrow" Source="Assets/arrow.png" HorizontalAlignment="Left" Height="60.974" Margin="169.25,462.513,0,0" VerticalAlignment="Top" Width="78.328" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Tapped="Image_Top_Tapped">
+            <Image.RenderTransform>
+                <CompositeTransform Rotation="90.212"/>
+            </Image.RenderTransform>
+        </Image>
+        <Image x:Name="bottom_arrow" Source="Assets/arrow.png" HorizontalAlignment="Left" Height="61" Margin="169.25,564.75,0,0" VerticalAlignment="Top" Width="79" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Tapped="Image_Bottom_Tapped">
+            <Image.RenderTransform>
+                <CompositeTransform Rotation="-90"/>
+            </Image.RenderTransform>
+        </Image>
+        <Image x:Name="left_arrow" Source="Assets/arrow.png" HorizontalAlignment="Left" Height="61" Margin="109,514,0,0" VerticalAlignment="Top" Width="79" RenderTransformOrigin="0.5,0.5" Tapped="Image_Left_Tapped">
+            <Image.RenderTransform>
+                <CompositeTransform Rotation="360"/>
+            </Image.RenderTransform>
+        </Image>
+        <Image x:Name="right_arrow" Source="Assets/arrow.png" HorizontalAlignment="Left" Height="61" Margin="230,514,0,0" VerticalAlignment="Top" Width="79" RenderTransformOrigin="0.5,0.5" Tapped="Image_Right_Tapped">
+            <Image.RenderTransform>
+                <CompositeTransform Rotation="180"/>
+            </Image.RenderTransform>
+        </Image>
 
         <!--Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="95" Stroke="Black" VerticalAlignment="Top" Width="95" Margin="295,430,0,0"/-->
     </Grid>

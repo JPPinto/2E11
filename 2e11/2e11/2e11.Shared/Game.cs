@@ -4,10 +4,10 @@ using System.Text;
 
 namespace _2e11 {
     class Game {
-        static readonly String[] representation = { "2", "4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048", "4096", "8192", "16384", "32768", "65536", "131072" };
-        static readonly int[] values = { 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072 };
-        static readonly ushort boardSize = 4;
-        static readonly ushort startTiles = 2;
+        public static readonly String[] representation = { "2", "4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048", "4096", "8192", "16384", "32768", "65536", "131072" };
+        public static readonly int[] values = { 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072 };
+        public static readonly ushort boardSize = 4;
+        public static readonly ushort startTiles = 2;
 
         bool isWon;
         bool isLost;
@@ -27,7 +27,8 @@ namespace _2e11 {
             resetBoard();
             addStartTiles();
         }
-        void initializeBoard() {
+        public void initializeBoard()
+        {
             board = new Tile[boardSize, boardSize];
 
             for (ushort i = 0; i < boardSize; i++) {
@@ -36,7 +37,8 @@ namespace _2e11 {
                 }
             }
         }
-        void resetBoard() {
+        public void resetBoard()
+        {
             rnd = new Random();
             score = 0;
             isWon = false;
@@ -48,7 +50,8 @@ namespace _2e11 {
                 }
             }
         }
-        bool cellsAvailable() {
+        public bool cellsAvailable()
+        {
             for (ushort i = 0; i < boardSize; i++) {
                 for (ushort j = 0; j < boardSize; j++) {
                     if (board[i, j].getAvailability()) {
@@ -58,7 +61,8 @@ namespace _2e11 {
             }
             return false;
         }
-        ushort getNumberOfAvailableCells() {
+        public ushort getNumberOfAvailableCells()
+        {
             ushort ret = 0;
             for (ushort i = 0; i < boardSize; i++) {
                 for (ushort j = 0; j < boardSize; j++) {
@@ -70,7 +74,8 @@ namespace _2e11 {
 
             return ret;
         }
-        void addRandomTile() {
+        public void addRandomTile()
+        {
             if (cellsAvailable()) {
                 // 95% for 2 5% for 4 
                 ushort value = (ushort)rnd.Next(0, 100) < 95 ? (ushort)1 : (ushort)2;
@@ -91,10 +96,12 @@ namespace _2e11 {
                 }
             }
         }
-        void updateScore(ushort mergedX, ushort mergedY) {
+        public void updateScore(ushort mergedX, ushort mergedY)
+        {
             score += (ulong)values[board[mergedX, mergedY].getValue() - 1];
         }
-        void addStartTiles() {
+        public void addStartTiles()
+        {
             for (var i = 0; i < startTiles; i++) {
                 addRandomTile();
             }
@@ -237,7 +244,8 @@ namespace _2e11 {
                 afterMoveChecks();
             }
         }
-        void afterMoveChecks() {
+        public void afterMoveChecks()
+        {
             updateVictoryBool();
             updateLostBool();
 
@@ -268,5 +276,11 @@ namespace _2e11 {
             }
             return ret;
         }
+
+        public Tile[,] getBoard()
+        {
+            return this.board;
+        }
+
     }
 }

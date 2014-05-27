@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Linq; 
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -12,6 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Shapes;
+using Windows.UI.Xaml.Media.Imaging;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -20,15 +22,25 @@ namespace _2e11
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
-    {
+    /// 
+    public sealed partial class MainPage : Page {
         Game game;
+
+        private Uri _imageSource;
+        public Uri ImageSource
+        {
+            get { return _imageSource; }
+            set { _imageSource = value;}
+        }
 
         public MainPage()
         {
             this.InitializeComponent();
-            
+            //ImageTools.IO.Decoders.AddDecoder<GifDecoder>();
+
             game = new Game();
+
+            UpdateGrid();
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
@@ -54,9 +66,75 @@ namespace _2e11
 
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void Image_Left_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            
+            this.score_value.Text = "4";
+            game.moveLeft();
+            UpdateGrid();
         }
+
+        private void Image_Right_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            this.score_value.Text = "2";
+            game.moveRight();
+            UpdateGrid();
+        }
+
+        private void Image_Top_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            this.score_value.Text = "1";
+            game.moveUp();
+            UpdateGrid();
+        }
+
+        private void Image_Bottom_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            this.score_value.Text = "3";
+            game.moveDown();
+            UpdateGrid();
+        }
+
+        private void UpdateGrid()
+        {
+            gameGrid.Children.Clear();
+
+            Tile[,] temp_board = game.getBoard();
+
+            for (ushort i = 0; i < Game.boardSize; i++)
+            {
+                for (ushort j = 0; j < Game.boardSize; j++)
+                {
+                    if (!temp_board[i, j].getAvailability())
+                    {
+                        int tile_value = temp_board[i, j].getValue();
+                        if(tile_value != 0)
+                            addPiece(Game.representation[temp_board[i, j].getValue() - 1], j, i );
+                    }
+
+                }
+            }
+        }
+
+        private void addPiece(String value, int x_pos, int y_pos)
+        {
+            Image temp_img = new Image();
+
+            var uri = new Uri("ms-appx:/Assets/" + value + ".png", UriKind.RelativeOrAbsolute);
+            BitmapImage myImage = new BitmapImage();
+            myImage.UriSource = uri;
+
+            temp_img.Source = myImage;
+
+            Grid.SetColumn(temp_img, x_pos);
+            Grid.SetRow(temp_img, y_pos);
+
+            gameGrid.Children.Add(temp_img);
+                       
+        }
+
+        //public void OnManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
+        //{
+        //    var velocities = e.Velocities;
+        //}
     }
 }

@@ -80,9 +80,6 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -94,6 +91,18 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\1024.png" />
+    <Content Include="Assets\128.png" />
+    <Content Include="Assets\16.png" />
+    <Content Include="Assets\2.png" />
+    <Content Include="Assets\2048.png" />
+    <Content Include="Assets\256.png" />
+    <Content Include="Assets\32.png" />
+    <Content Include="Assets\4.png" />
+    <Content Include="Assets\512.png" />
+    <Content Include="Assets\64.png" />
+    <Content Include="Assets\8.png" />
+    <Content Include="Assets\arrow.png" />
     <Content Include="Assets\Logo.scale-240.png" />
     <Content Include="Assets\SmallLogo.scale-240.png" />
     <Content Include="Assets\SplashScreen.scale-240.png" />
