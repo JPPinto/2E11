@@ -103,6 +103,7 @@
     <Content Include="Assets\64.png" />
     <Content Include="Assets\8.png" />
     <Content Include="Assets\arrow.png" />
+    <Content Include="Assets\gameBoard.png" />
     <Content Include="Assets\Logo.scale-240.png" />
     <Content Include="Assets\SmallLogo.scale-240.png" />
     <Content Include="Assets\SplashScreen.scale-240.png" />
