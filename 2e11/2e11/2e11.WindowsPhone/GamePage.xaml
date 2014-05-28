@@ -27,10 +27,11 @@
             </Grid.ColumnDefinitions>
         </Grid>
 
-        <TextBlock IsTextScaleFactorEnabled="True" HorizontalAlignment="Left" Height="17" Margin="10,10,0,0" TextWrapping="Wrap" Text="SCORE:" VerticalAlignment="Top" Width="120" SelectionChanged="TextBlock_SelectionChanged" FontSize="18" FontFamily="Segoe WP Semibold" IsColorFontEnabled="True" Foreground="White" FontWeight="Bold" />
+        <TextBlock IsTextScaleFactorEnabled="True" HorizontalAlignment="Left" Height="17" Margin="10,10,0,0" TextWrapping="Wrap" Text="SCORE:" VerticalAlignment="Top" Width="120" FontSize="18" FontFamily="Segoe WP Semibold" IsColorFontEnabled="True" Foreground="White" FontWeight="Bold" />
         <TextBlock x:Name="score_value" TextAlignment="Left" IsTextScaleFactorEnabled="True" HorizontalAlignment="Right" Height="24" Margin="0,34,205,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="185" FontSize="20" FontFamily="Segoe UI Semibold" IsColorFontEnabled="True" Foreground="White" IsTextSelectionEnabled="True" />
         <Button Content="Restart" HorizontalAlignment="Left" Margin="200,10,0,0" VerticalAlignment="Top" Tapped="Button_Tapped" Background="{x:Null}" BorderThickness="0,2" FontSize="18" FontFamily="Segoe WP Semibold" Width="153"/>
 
+        <!-- Buttoms backup -->
         <!--<Image x:Name="top_arrow" Source="Assets/arrow.png" HorizontalAlignment="Left" Height="60.974" Margin="169.25,462.513,0,0" VerticalAlignment="Top" Width="78.328" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Tapped="Image_Top_Tapped">
             <Image.RenderTransform>
                 <CompositeTransform Rotation="90.212"/>
