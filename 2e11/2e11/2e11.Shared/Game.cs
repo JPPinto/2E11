@@ -27,8 +27,7 @@ namespace _2e11 {
             resetBoard();
             addStartTiles();
         }
-        public void initializeBoard()
-        {
+        public void initializeBoard() {
             board = new Tile[boardSize, boardSize];
 
             for (ushort i = 0; i < boardSize; i++) {
@@ -37,8 +36,7 @@ namespace _2e11 {
                 }
             }
         }
-        public void resetBoard()
-        {
+        public void resetBoard() {
             rnd = new Random();
             score = 0;
             isWon = false;
@@ -50,8 +48,7 @@ namespace _2e11 {
                 }
             }
         }
-        public bool cellsAvailable()
-        {
+        public bool cellsAvailable() {
             for (ushort i = 0; i < boardSize; i++) {
                 for (ushort j = 0; j < boardSize; j++) {
                     if (board[i, j].getAvailability()) {
@@ -61,8 +58,7 @@ namespace _2e11 {
             }
             return false;
         }
-        public ushort getNumberOfAvailableCells()
-        {
+        public ushort getNumberOfAvailableCells() {
             ushort ret = 0;
             for (ushort i = 0; i < boardSize; i++) {
                 for (ushort j = 0; j < boardSize; j++) {
@@ -74,8 +70,7 @@ namespace _2e11 {
 
             return ret;
         }
-        public void addRandomTile()
-        {
+        public void addRandomTile() {
             if (cellsAvailable()) {
                 // 95% for 2 5% for 4 
                 ushort value = (ushort)rnd.Next(0, 100) < 95 ? (ushort)1 : (ushort)2;
@@ -96,12 +91,10 @@ namespace _2e11 {
                 }
             }
         }
-        public void updateScore(ushort mergedX, ushort mergedY)
-        {
+        public void updateScore(ushort mergedX, ushort mergedY) {
             score += (ulong)values[board[mergedX, mergedY].getValue() - 1];
         }
-        public void addStartTiles()
-        {
+        public void addStartTiles() {
             for (var i = 0; i < startTiles; i++) {
                 addRandomTile();
             }
@@ -110,146 +103,105 @@ namespace _2e11 {
             return isWon;
         }
         public void moveLeft() {
-            bool needsReRun = true;
-            bool actualMoveDone = false;
-
-            while (needsReRun) {
-                needsReRun = false;
-
-                for (ushort i = 0; i < boardSize; i++) {
-                    for (ushort j = 0; j < boardSize - 1; j++) {
-                        // Move
-                        if (board[i, j].getAvailability() && !(board[i, j + 1].getAvailability())) {
-                            board[i, j].setValue(board[i, j + 1].getValue());
-                            board[i, j + 1].clear();
-                            needsReRun = true;
-                            actualMoveDone = true;
-                            break;
-                        }
-
-                        // Merge
-                        if ((board[i,j].getValue() != 0) && board[i, j].getValue() == board[i, j + 1].getValue()) {
-                            board[i, j].increaseValue();
-                            board[i, j + 1].clear();
-                            needsReRun = true;
-                            actualMoveDone = true;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (actualMoveDone) {
-                afterMoveChecks();
-            }
+            Update(Direction.Left);
         }
         public void moveRight() {
-            bool needsReRun = true;
-            bool actualMoveDone = false;
-
-            while (needsReRun) {
-                needsReRun = false;
-                for (ushort i = 0; i < boardSize; i++) {
-                    for (ushort j = 0; j < boardSize - 1; j++) {
-                        // Move
-                        if (board[i, j + 1].getAvailability() && !(board[i, j].getAvailability())) {
-                            board[i, j + 1].setValue(board[i, j].getValue());
-                            board[i, j].clear();
-                            needsReRun = true;
-                            actualMoveDone = true;
-                            break;
-                        }
-
-                        // Merge
-                        if ((board[i, j].getValue() != 0) && board[i, j].getValue() == board[i, j + 1].getValue()) {
-                            board[i, j + 1].increaseValue();
-                            board[i, j].clear();
-                            needsReRun = true;
-                            actualMoveDone = true;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (actualMoveDone) {
-                afterMoveChecks();
-            }
+            Update(Direction.Right);
         }
         public void moveUp() {
-            bool needsReRun = true;
-            bool actualMoveDone = false;
-
-            while (needsReRun) {
-                needsReRun = false;
-
-                for (ushort i = 0; i < boardSize - 1; i++) {
-                    for (ushort j = 0; j < boardSize; j++) {
-                        // Move
-                        if (board[i, j].getAvailability() && !(board[i + 1, j].getAvailability())) {
-                            board[i, j].setValue(board[i + 1, j].getValue());
-                            board[i + 1, j].clear();
-                            needsReRun = true;
-                            actualMoveDone = true;
-                            break;
-                        }
-
-                        // Merge
-                        if ((board[i, j].getValue() != 0) && board[i, j].getValue() == board[i + 1, j].getValue()) {
-                            board[i, j].increaseValue();
-                            board[i + 1, j].clear();
-                            needsReRun = true;
-                            actualMoveDone = true;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (actualMoveDone) {
-                afterMoveChecks();
-            }
+            Update(Direction.Up);
         }
         public void moveDown() {
-            bool needsReRun = true;
-            bool actualMoveDone = false;
+            Update(Direction.Down);
+        }
+        private void Update(Direction direction) {
+            bool hasUpdated = false;
 
-            while (needsReRun) {
-                needsReRun = false;
+            // You shouldn't be dead at this point. We always check if you're dead at the end of the Update()
 
-                for (ushort i = 0; i < boardSize - 1; i++) {
-                    for (ushort j = 0; j < boardSize; j++) {
-                        // Move
-                        if (board[i + 1, j].getAvailability() && !(board[i, j].getAvailability())) {
-                            board[i + 1, j].setValue(board[i, j].getValue());
-                            board[i, j].clear();
-                            needsReRun = true;
-                            actualMoveDone = true;
-                            break;
+            // Drop along row or column? true: process inner along row; false: process inner along column
+            bool isAlongRow = direction == Direction.Left || direction == Direction.Right;
+
+            // Should we process inner dimension in increasing index order?
+            bool isIncreasing = direction == Direction.Left || direction == Direction.Up;
+
+            ushort outterCount = isAlongRow ? boardSize : boardSize;
+            ushort innerCount  = isAlongRow ? boardSize : boardSize;
+            ushort innerStart  = (ushort) (isIncreasing ? 0 : innerCount - 1);
+            ushort innerEnd    = (ushort) (isIncreasing ? innerCount - 1 : 0);
+
+            Func<ushort, ushort> drop = isIncreasing
+                ? new Func<ushort, ushort>(innerIndex => (ushort) (innerIndex - 1))
+                : new Func<ushort, ushort>(innerIndex => (ushort) (innerIndex + 1));
+
+            Func<ushort, ushort> reverseDrop = isIncreasing
+                ? new Func<ushort, ushort>(innerIndex => (ushort) (innerIndex + 1))
+                : new Func<ushort, ushort>(innerIndex => (ushort) (innerIndex - 1));
+
+            Func<int, bool> innerCondition = index => Math.Min(innerStart, innerEnd) <= index && index <= Math.Max(innerStart, innerEnd);
+
+            Func<ushort, ushort, ushort> getValue = isAlongRow
+                ? new Func<ushort, ushort, ushort>((i, j) => board[i, j].getValue())
+                : new Func<ushort, ushort, ushort>((i, j) => board[j, i].getValue());
+
+            Action<ushort, ushort, ushort> setValue = isAlongRow
+                ? new Action<ushort, ushort, ushort>((i, j, v) => board[i, j].setValue(v))
+                : new Action<ushort, ushort, ushort>((i, j, v) => board[j, i].setValue(v));
+
+            for (ushort i = 0; i < outterCount; i++) {
+                bool mergeOccurred = false;
+                for (ushort j = innerStart; innerCondition(j); j = reverseDrop(j)) {
+                    if (getValue(i, j) == 0) {
+                        continue;
+                    }
+
+                    ushort newJ = j;
+                    do {
+                        newJ = drop(newJ);
+                    }
+                    // Continue probing along as long as we haven't hit the boundary and the new position isn't occupied
+                    while (innerCondition(newJ) && getValue(i, newJ) == 0);
+
+                    if (innerCondition(newJ) && !mergeOccurred && getValue(i, newJ) == getValue(i, j)) {
+                        // We did not hit the canvas boundary (we hit a node) AND no previous merge occurred AND the nodes' values are the same
+                        // Let's merge
+                        ushort newValue = (ushort) (getValue(i, newJ) + 1);
+                        setValue(i, newJ, newValue);
+                        setValue(i, j, 0);
+
+                        mergeOccurred = true;
+                        hasUpdated = true;
+                        score += newValue;
+                    }
+                    else {
+                        // Reached the boundary OR...
+                        // we hit a node with different value OR...
+                        // we hit a node with same value BUT a prevous merge had occurred
+                        // 
+                        // Simply stack along
+                        newJ = reverseDrop(newJ); // reverse back to its valid position
+                        if (newJ != j) {
+                            // there's an update
+                            hasUpdated = true;
                         }
 
-                        // Merge
-                        if ((board[i, j].getValue() != 0) && board[i, j].getValue() == board[i + 1, j].getValue()) {
-                            board[i + 1, j].increaseValue();
-                            board[i, j].clear();
-                            needsReRun = true;
-                            actualMoveDone = true;
-                            break;
-                        }
+                        ushort value = getValue(i, j);
+                        setValue(i, j, 0);
+                        setValue(i, newJ, value);
                     }
                 }
             }
 
-            if (actualMoveDone) {
+            if (hasUpdated) {
                 afterMoveChecks();
             }
         }
-        public void afterMoveChecks()
-        {
+
+        public void afterMoveChecks() {
             updateVictoryBool();
             updateLostBool();
 
-            if (!isLost) { 
+            if (!isLost) {
                 addRandomTile();
             }
         }
@@ -277,10 +229,15 @@ namespace _2e11 {
             return ret;
         }
 
-        public Tile[,] getBoard()
-        {
+        public Tile[,] getBoard() {
             return this.board;
         }
 
+        enum Direction {
+            Up,
+            Down,
+            Right,
+            Left,
+        }
     }
 }
