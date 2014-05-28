@@ -71,37 +71,41 @@ namespace _2e11 {
             if (isLost) { 
                 return;
             }
-
-            if (Update(this.board, Direction.Left, out score)) {
+            ulong temp;
+            if (Update(this.board, Direction.Left, out temp)) {
                 PutNewValue();
             }
+            score+=temp;
         }
         public void moveRight() {
             if (isLost) {
                 return;
             }
-
-            if (Update(this.board, Direction.Right, out score)) {
+            ulong temp;
+            if (Update(this.board, Direction.Right, out temp)) {
                 PutNewValue();
             }
+            score += temp;
         }
         public void moveUp() {
             if (isLost) {
                 return;
             }
-
-            if (Update(this.board, Direction.Up, out score)) {
+            ulong temp;
+            if (Update(this.board, Direction.Up, out temp)) {
                 PutNewValue();
             }
+            score += temp;
         }
         public void moveDown() {
             if (isLost) {
                 return;
             }
-
-            if(Update(this.board, Direction.Down, out score)){
+            ulong temp;
+            if(Update(this.board, Direction.Down, out temp)){
                 PutNewValue();
             }
+            score += temp;
         }
         private static bool Update(ushort[,] boardIn, Direction direction, out ulong scoreIn) {
             scoreIn = 0;
@@ -162,7 +166,7 @@ namespace _2e11 {
 
                         mergeOccurred = true;
                         hasUpdated = true;
-                        scoreIn += (ulong) values[newValue]; // TODO: Fix the score
+                        scoreIn = (ulong) values[newValue];
                     }
                     else {
                         // Reached the boundary OR...
@@ -229,6 +233,10 @@ namespace _2e11 {
 
         public ushort[,] getBoard() {
             return this.board;
+        }
+
+        public ulong getScore(){
+            return score;
         }
 
         enum Direction {

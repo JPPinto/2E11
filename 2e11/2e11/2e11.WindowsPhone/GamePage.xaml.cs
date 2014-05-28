@@ -56,28 +56,24 @@ namespace _2e11
 
         private void Image_Left_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            this.score_value.Text = "4";
             game.moveLeft();
             UpdateGrid();
         }
 
         private void Image_Right_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            this.score_value.Text = "2";
             game.moveRight();
             UpdateGrid();
         }
 
         private void Image_Top_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            this.score_value.Text = "1";
             game.moveUp();
             UpdateGrid();
         }
 
         private void Image_Bottom_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            this.score_value.Text = "3";
             game.moveDown();
             UpdateGrid();
         }
@@ -102,7 +98,7 @@ namespace _2e11
                 }
             }
 
-            //game.
+            this.score_value.Text = game.getScore().ToString();
         }
 
         private void addPiece(ushort value, int x_pos, int y_pos)
