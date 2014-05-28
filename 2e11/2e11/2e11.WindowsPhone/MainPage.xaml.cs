@@ -103,7 +103,27 @@ namespace _2e11
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
+<<<<<<< HEAD
             this.navigationHelper.OnNavigatedFrom(e);
+=======
+            gameGrid.Children.Clear();
+
+            ushort[,] temp_board = game.getBoard();
+
+            for (ushort i = 0; i < Game.boardSize; i++)
+            {
+                for (ushort j = 0; j < Game.boardSize; j++)
+                {
+                    if (temp_board[i, j] != 0)
+                    {
+                        int tile_value = temp_board[i, j];
+                        if(tile_value != 0)
+                            addPiece(Game.representation[temp_board[i, j] - 1], j, i );
+                    }
+
+                }
+            }
+>>>>>>> 4f324f6454422423eb0f6da444887c46f46eb825
         }
 
         #endregion
