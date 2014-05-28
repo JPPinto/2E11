@@ -9,9 +9,9 @@ namespace _2e11 {
         public static readonly ushort boardSize = 4;
         public static readonly ushort startTiles = 2;
 
-        bool isWon;
-        bool isLost;
-        ulong score;
+        public bool isWon;
+        public bool isLost;
+        public ulong score;
         ushort[,] board;
         Random rnd = new Random();
 

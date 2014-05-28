@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="_2e11.MainPage"
+    x:Class="_2e11.AboutPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:_2e11"
@@ -9,6 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid x:Name="LayoutRoot">
+
         <Grid.ChildrenTransitions>
             <TransitionCollection>
                 <EntranceThemeTransition/>
@@ -21,15 +22,19 @@
         </Grid.RowDefinitions>
 
         <!-- Title Panel -->
-        <StackPanel Grid.Row="0" Margin="19,0,0,0"/>
+        <StackPanel Grid.Row="0" Margin="19,0,0,0">
+            <TextBlock Text="2e11" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+            <TextBlock Text="About" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
+        </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
-            <Image Source="Assets/title.png" Margin="10,-60,-10,59.667"/>
-            <Image Source="Assets/cover.jpg" Margin="-206,208,206,165" Grid.RowSpan="2"/>
-            <Button Content="Start" HorizontalAlignment="Left" Margin="96,297,0,0" VerticalAlignment="Top" Click="Start_Button_Click" BorderThickness="0,2" Width="170"/>
-            <Button Content="About" HorizontalAlignment="Left" Margin="96,362,0,0" VerticalAlignment="Top" Click="About_Button_Click" BorderThickness="0,2" Width="170"/>
-        </Grid>
 
+        </Grid>
+        <TextBlock HorizontalAlignment="Left" Height="493" Margin="19,7.833,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="362" FontSize="20">
+        	<Run Text="STILL "/>
+        	<Run Text="TODO"/>
+        	<Run Text="!"/>
+        </TextBlock>
     </Grid>
 </Page>

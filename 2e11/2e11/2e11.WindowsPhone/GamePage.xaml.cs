@@ -99,6 +99,12 @@ namespace _2e11
             }
 
             this.score_value.Text = (game.getScore()/2).ToString();
+
+            if (game.isLost) {
+                this.lose_buttom.Visibility = Visibility.Visible;
+                this.lose_panel.Visibility = Visibility.Visible;
+                this.lose_text_block.Visibility = Visibility.Visible;
+            }
         }
 
         private void addPiece(ushort value, int x_pos, int y_pos)
@@ -201,8 +207,26 @@ namespace _2e11
             animating = false;
         }
 
-        private void Button_Tapped(object sender, TappedRoutedEventArgs e)
+        private void Restart_Button_Click(object sender, RoutedEventArgs e)
         {
+            this.lose_buttom.Visibility = Visibility.Collapsed;
+            this.lose_panel.Visibility = Visibility.Collapsed;
+            this.lose_text_block.Visibility = Visibility.Collapsed;
+
+            game.resetBoard();
+            game.addStartTiles();
+
+            UpdateGrid();
+        }
+
+        private void Exit_Buttom_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MainPage));
+
+            this.lose_buttom.Visibility = Visibility.Collapsed;
+            this.lose_panel.Visibility = Visibility.Collapsed;
+            this.lose_text_block.Visibility = Visibility.Collapsed;
+
             game.resetBoard();
             game.addStartTiles();
 
