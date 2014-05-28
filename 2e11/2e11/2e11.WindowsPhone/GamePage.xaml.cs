@@ -22,10 +22,12 @@ namespace _2e11
         private double old_X;
         private double old_Y;
         private bool animating;
+        private BitmapImage[] tiles;
 
         public GamePage()
         {
             this.InitializeComponent();
+            preloadImages();
             //ImageTools.IO.Decoders.AddDecoder<GifDecoder>();
 
             game = new Game();
@@ -94,7 +96,7 @@ namespace _2e11
                     {
                         int tile_value = temp_board[i, j];
                         if (tile_value != 0)
-                            addPiece(Game.representation[temp_board[i, j] - 1], j, i);
+                            addPiece(temp_board[i, j], j, i);
                     }
 
                 }
@@ -103,21 +105,28 @@ namespace _2e11
             //game.
         }
 
-        private void addPiece(String value, int x_pos, int y_pos)
+        private void addPiece(ushort value, int x_pos, int y_pos)
         {
             Image temp_img = new Image();
-
-            var uri = new Uri("ms-appx:/Assets/" + value + ".png", UriKind.RelativeOrAbsolute);
-            BitmapImage myImage = new BitmapImage();
-            myImage.UriSource = uri;
-
-            temp_img.Source = myImage;
+            temp_img.Source = tiles[value -1];
 
             Grid.SetColumn(temp_img, x_pos);
             Grid.SetRow(temp_img, y_pos);
 
             gameGrid.Children.Add(temp_img);
 
+        }
+
+        private void preloadImages() {
+            tiles = new BitmapImage[11];
+
+            for (int i = 0; i < 11; i++) {
+                int value = (int) Math.Pow(2,i+1);
+                
+                var uri = new Uri("ms-appx:/Assets/" + value.ToString() + ".png", UriKind.RelativeOrAbsolute);
+                tiles[i] = new BitmapImage();
+                tiles[i].UriSource = uri;
+            }
         }
 
         private void gameGrid_PointerPressed(object sender, PointerRoutedEventArgs e)
