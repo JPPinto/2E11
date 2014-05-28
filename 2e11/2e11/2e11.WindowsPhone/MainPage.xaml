@@ -8,51 +8,29 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <Grid x:Name="gameGrid" HorizontalAlignment="Left" Height="446" Margin="0,0,0,194" VerticalAlignment="Bottom" Width="400">
-            <Grid.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="#FF0F179C" Offset="0.277"/>
-                </LinearGradientBrush>
-            </Grid.Background>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
+    <Grid x:Name="LayoutRoot">
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title Panel -->
+        <StackPanel Grid.Row="0" Margin="19,0,0,0"/>
+
+        <!--TODO: Content should be placed within the following grid-->
+        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+            <Image Source="Assets/title.png" Margin="10,-60,-10,59.667"/>
+            <Image Source="Assets/cover.jpg" Margin="-206,208,206,165" Grid.RowSpan="2"/>
+            <Button Content="Start" HorizontalAlignment="Left" Margin="96,297,0,0" VerticalAlignment="Top" Click="Button_Click" BorderThickness="0,2" Width="170"/>
+            <Button Content="About" HorizontalAlignment="Left" Margin="96,362,0,0" VerticalAlignment="Top" Click="Button_Click" BorderThickness="0,2" Width="170"/>
+
         </Grid>
-        <TextBlock IsTextScaleFactorEnabled="True" HorizontalAlignment="Left" Height="17" Margin="9,580,0,0" TextWrapping="Wrap" Text="SCORE:" VerticalAlignment="Top" Width="120" SelectionChanged="TextBlock_SelectionChanged" FontSize="18" FontFamily="Andy" IsColorFontEnabled="True" Foreground="#FF6363FF" />
-        <TextBlock x:Name="score_value" TextAlignment="Left" IsTextScaleFactorEnabled="True" HorizontalAlignment="Left" Height="24" Margin="10,606,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="185" FontSize="24" FontFamily="Andy" IsColorFontEnabled="True" Foreground="#FF6363FF" IsTextSelectionEnabled="True" />
 
-        <Image x:Name="top_arrow" Source="Assets/arrow.png" HorizontalAlignment="Left" Height="60.974" Margin="169.25,462.513,0,0" VerticalAlignment="Top" Width="78.328" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Tapped="Image_Top_Tapped">
-            <Image.RenderTransform>
-                <CompositeTransform Rotation="90.212"/>
-            </Image.RenderTransform>
-        </Image>
-        <Image x:Name="bottom_arrow" Source="Assets/arrow.png" HorizontalAlignment="Left" Height="61" Margin="169.25,564.75,0,0" VerticalAlignment="Top" Width="79" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Tapped="Image_Bottom_Tapped">
-            <Image.RenderTransform>
-                <CompositeTransform Rotation="-90"/>
-            </Image.RenderTransform>
-        </Image>
-        <Image x:Name="left_arrow" Source="Assets/arrow.png" HorizontalAlignment="Left" Height="61" Margin="109,514,0,0" VerticalAlignment="Top" Width="79" RenderTransformOrigin="0.5,0.5" Tapped="Image_Left_Tapped">
-            <Image.RenderTransform>
-                <CompositeTransform Rotation="360"/>
-            </Image.RenderTransform>
-        </Image>
-        <Image x:Name="right_arrow" Source="Assets/arrow.png" HorizontalAlignment="Left" Height="61" Margin="230,514,0,0" VerticalAlignment="Top" Width="79" RenderTransformOrigin="0.5,0.5" Tapped="Image_Right_Tapped">
-            <Image.RenderTransform>
-                <CompositeTransform Rotation="180"/>
-            </Image.RenderTransform>
-        </Image>
-
-        <!--Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="95" Stroke="Black" VerticalAlignment="Top" Width="95" Margin="295,430,0,0"/-->
     </Grid>
 </Page>
