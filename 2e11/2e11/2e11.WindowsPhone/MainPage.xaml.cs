@@ -98,17 +98,17 @@ namespace _2e11
         {
             gameGrid.Children.Clear();
 
-            Tile[,] temp_board = game.getBoard();
+            ushort[,] temp_board = game.getBoard();
 
             for (ushort i = 0; i < Game.boardSize; i++)
             {
                 for (ushort j = 0; j < Game.boardSize; j++)
                 {
-                    if (!temp_board[i, j].getAvailability())
+                    if (temp_board[i, j] != 0)
                     {
-                        int tile_value = temp_board[i, j].getValue();
+                        int tile_value = temp_board[i, j];
                         if(tile_value != 0)
-                            addPiece(Game.representation[temp_board[i, j].getValue() - 1], j, i );
+                            addPiece(Game.representation[temp_board[i, j] - 1], j, i );
                     }
 
                 }

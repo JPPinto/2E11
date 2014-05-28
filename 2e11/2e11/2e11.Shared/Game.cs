@@ -12,13 +12,12 @@ namespace _2e11 {
         bool isWon;
         bool isLost;
         ulong score;
-
-        Tile[,] board;
+        ushort[,] board;
         Random rnd;
 
         // Initial constructor (only call once)
         public Game() {
-            initializeBoard();
+            board = new ushort[boardSize, boardSize];
 
             resetBoard();
             addStartTiles();
@@ -27,15 +26,7 @@ namespace _2e11 {
             resetBoard();
             addStartTiles();
         }
-        public void initializeBoard() {
-            board = new Tile[boardSize, boardSize];
 
-            for (ushort i = 0; i < boardSize; i++) {
-                for (ushort j = 0; j < boardSize; j++) {
-                    board[i, j] = new Tile();
-                }
-            }
-        }
         public void resetBoard() {
             rnd = new Random();
             score = 0;
@@ -44,14 +35,14 @@ namespace _2e11 {
 
             for (ushort i = 0; i < boardSize; i++) {
                 for (ushort j = 0; j < boardSize; j++) {
-                    board[i, j].clear();
+                    board[i, j]=0;
                 }
             }
         }
         public bool cellsAvailable() {
             for (ushort i = 0; i < boardSize; i++) {
                 for (ushort j = 0; j < boardSize; j++) {
-                    if (board[i, j].getAvailability()) {
+                    if (board[i, j] == 0) {
                         return true;
                     }
                 }
@@ -62,7 +53,7 @@ namespace _2e11 {
             ushort ret = 0;
             for (ushort i = 0; i < boardSize; i++) {
                 for (ushort j = 0; j < boardSize; j++) {
-                    if (board[i, j].getAvailability()) {
+                    if (board[i, j] == 0) {
                         ret++;
                     }
                 }
@@ -80,19 +71,19 @@ namespace _2e11 {
                 ushort ret = 0;
                 for (ushort i = 0; i < boardSize; i++) {
                     for (ushort j = 0; j < boardSize; j++) {
-                        if (board[i, j].getAvailability()) {
+                        if (board[i, j]==0) {
                             ret++;
                         }
 
                         if (ret == pos) {
-                            board[i, j].setValue(value);
+                            board[i, j]=value;
                         }
                     }
                 }
             }
         }
         public void updateScore(ushort mergedX, ushort mergedY) {
-            score += (ulong)values[board[mergedX, mergedY].getValue() - 1];
+            score += (ulong)values[board[mergedX, mergedY] - 1];
         }
         public void addStartTiles() {
             for (var i = 0; i < startTiles; i++) {
@@ -138,18 +129,19 @@ namespace _2e11 {
                 ? new Func<ushort, ushort>(innerIndex => (ushort) (innerIndex + 1))
                 : new Func<ushort, ushort>(innerIndex => (ushort) (innerIndex - 1));
 
-            Func<int, bool> innerCondition = index => Math.Min(innerStart, innerEnd) <= index && index <= Math.Max(innerStart, innerEnd);
+            Func<ushort, bool> innerCondition = index => Math.Min(innerStart, innerEnd) <= index && index <= Math.Max(innerStart, innerEnd);
 
             Func<ushort, ushort, ushort> getValue = isAlongRow
-                ? new Func<ushort, ushort, ushort>((i, j) => board[i, j].getValue())
-                : new Func<ushort, ushort, ushort>((i, j) => board[j, i].getValue());
+                ? new Func<ushort, ushort, ushort>((i, j) => board[i, j])
+                : new Func<ushort, ushort, ushort>((i, j) => board[j, i]);
 
             Action<ushort, ushort, ushort> setValue = isAlongRow
-                ? new Action<ushort, ushort, ushort>((i, j, v) => board[i, j].setValue(v))
-                : new Action<ushort, ushort, ushort>((i, j, v) => board[j, i].setValue(v));
+                ? new Action<ushort, ushort, ushort>((i, j, v) => board[i, j] = v)
+                : new Action<ushort, ushort, ushort>((i, j, v) => board[j, i] = v);
 
             for (ushort i = 0; i < outterCount; i++) {
                 bool mergeOccurred = false;
+
                 for (ushort j = innerStart; innerCondition(j); j = reverseDrop(j)) {
                     if (getValue(i, j) == 0) {
                         continue;
@@ -171,7 +163,7 @@ namespace _2e11 {
 
                         mergeOccurred = true;
                         hasUpdated = true;
-                        score += newValue;
+                        score += newValue; // TODO: Fix score
                     }
                     else {
                         // Reached the boundary OR...
@@ -219,8 +211,8 @@ namespace _2e11 {
 
             for (ushort i = 0; i < boardSize; i++) {
                 for (ushort j = 0; j < boardSize; j++) {
-                    if (!board[i, j].getAvailability()) {
-                        ret += representation[board[i, j].getValue() - 1];
+                    if (board[i, j] != 0) {
+                        ret += representation[board[i, j] - 1];
                     }
                     ret += "; ";
                 }
@@ -229,7 +221,7 @@ namespace _2e11 {
             return ret;
         }
 
-        public Tile[,] getBoard() {
+        public ushort[,] getBoard() {
             return this.board;
         }
 
