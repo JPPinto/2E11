@@ -13,14 +13,12 @@ namespace _2e11 {
         bool isLost;
         ulong score;
         ushort[,] board;
-        Random rnd;
+        Random rnd = new Random();
 
         // Initial constructor (only call once)
         public Game() {
             board = new ushort[boardSize, boardSize];
-
-            resetBoard();
-            addStartTiles();
+            newGame();
         }
         public void newGame() {
             resetBoard();
@@ -28,84 +26,85 @@ namespace _2e11 {
         }
 
         public void resetBoard() {
-            rnd = new Random();
             score = 0;
             isWon = false;
             isLost = false;
 
             for (ushort i = 0; i < boardSize; i++) {
                 for (ushort j = 0; j < boardSize; j++) {
-                    board[i, j]=0;
+                    board[i, j] = 0;
                 }
             }
         }
-        public bool cellsAvailable() {
-            for (ushort i = 0; i < boardSize; i++) {
-                for (ushort j = 0; j < boardSize; j++) {
-                    if (board[i, j] == 0) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-        public ushort getNumberOfAvailableCells() {
-            ushort ret = 0;
-            for (ushort i = 0; i < boardSize; i++) {
-                for (ushort j = 0; j < boardSize; j++) {
-                    if (board[i, j] == 0) {
-                        ret++;
+        private void PutNewValue() {
+            // Find all empty slots
+            List<Tuple<ushort, ushort>> emptySlots = new List<Tuple<ushort, ushort>>();
+
+            for (ushort iRow = 0; iRow < boardSize; iRow++) {
+                for (ushort iCol = 0; iCol < boardSize; iCol++) {
+                    if (board[iRow, iCol] == 0) {
+                        emptySlots.Add(new Tuple<ushort, ushort>(iRow, iCol));
                     }
                 }
             }
 
-            return ret;
-        }
-        public void addRandomTile() {
-            if (cellsAvailable()) {
-                // 95% for 2 5% for 4 
-                ushort value = (ushort)rnd.Next(0, 100) < 95 ? (ushort)1 : (ushort)2;
+            // We should have at least 1 empty slot. Since we know the user is not dead
+            ushort iSlot = (ushort) rnd.Next(0, emptySlots.Count); // randomly pick an empty slot
+            ushort value = rnd.Next(0, 100) < 95 ? (ushort)1 : (ushort)2; // randomly pick 2 (with 95% chance) or 4 (rest of the chance)
+            board[emptySlots[iSlot].Item1, emptySlots[iSlot].Item2] = value;
 
-                ushort pos = (ushort)rnd.Next(0, getNumberOfAvailableCells());
-
-                ushort ret = 0;
-                for (ushort i = 0; i < boardSize; i++) {
-                    for (ushort j = 0; j < boardSize; j++) {
-                        if (board[i, j]==0) {
-                            ret++;
-                        }
-
-                        if (ret == pos) {
-                            board[i, j]=value;
-                        }
-                    }
-                }
-            }
+            // Check if we died
+            updateLostBool();
         }
         public void updateScore(ushort mergedX, ushort mergedY) {
             score += (ulong)values[board[mergedX, mergedY] - 1];
         }
         public void addStartTiles() {
             for (var i = 0; i < startTiles; i++) {
-                addRandomTile();
+                PutNewValue();
             }
         }
         public Boolean getIsWon() {
             return isWon;
         }
         public void moveLeft() {
-            Update(Direction.Left);
+            if (isLost) { 
+                return;
+            }
+
+            if (Update(this.board, Direction.Left, out score)) {
+                PutNewValue();
+            }
         }
         public void moveRight() {
-            Update(Direction.Right);
+            if (isLost) {
+                return;
+            }
+
+            if (Update(this.board, Direction.Right, out score)) {
+                PutNewValue();
+            }
         }
         public void moveUp() {
-            Update(Direction.Up);
+            if (isLost) {
+                return;
+            }
+
+            if (Update(this.board, Direction.Up, out score)) {
+                PutNewValue();
+            }
         }
         public void moveDown() {
-            Update(Direction.Down);
+            if (isLost) {
+                return;
+            }
+
+            if(Update(this.board, Direction.Down, out score)){
+                PutNewValue();
+            }
         }
-        private void Update(Direction direction) {
+        private static bool Update(ushort[,] boardIn, Direction direction, out ulong scoreIn) {
+            scoreIn = 0;
             bool hasUpdated = false;
 
             // You shouldn't be dead at this point. We always check if you're dead at the end of the Update()
@@ -132,12 +131,12 @@ namespace _2e11 {
             Func<ushort, bool> innerCondition = index => Math.Min(innerStart, innerEnd) <= index && index <= Math.Max(innerStart, innerEnd);
 
             Func<ushort, ushort, ushort> getValue = isAlongRow
-                ? new Func<ushort, ushort, ushort>((i, j) => board[i, j])
-                : new Func<ushort, ushort, ushort>((i, j) => board[j, i]);
+                ? new Func<ushort, ushort, ushort>((i, j) => boardIn[i, j])
+                : new Func<ushort, ushort, ushort>((i, j) => boardIn[j, i]);
 
             Action<ushort, ushort, ushort> setValue = isAlongRow
-                ? new Action<ushort, ushort, ushort>((i, j, v) => board[i, j] = v)
-                : new Action<ushort, ushort, ushort>((i, j, v) => board[j, i] = v);
+                ? new Action<ushort, ushort, ushort>((i, j, v) => boardIn[i, j] = v)
+                : new Action<ushort, ushort, ushort>((i, j, v) => boardIn[j, i] = v);
 
             for (ushort i = 0; i < outterCount; i++) {
                 bool mergeOccurred = false;
@@ -163,7 +162,7 @@ namespace _2e11 {
 
                         mergeOccurred = true;
                         hasUpdated = true;
-                        score += newValue; // TODO: Fix score
+                        scoreIn += (ulong) values[newValue]; // TODO: Fix the score
                     }
                     else {
                         // Reached the boundary OR...
@@ -184,9 +183,7 @@ namespace _2e11 {
                 }
             }
 
-            if (hasUpdated) {
-                afterMoveChecks();
-            }
+            return hasUpdated;
         }
 
         public void afterMoveChecks() {
@@ -194,17 +191,26 @@ namespace _2e11 {
             updateLostBool();
 
             if (!isLost) {
-                addRandomTile();
+                PutNewValue();
             }
         }
         void updateVictoryBool() {
 
         }
         void updateLostBool() {
+            ulong scoreTemp;
+            foreach (Direction dir in new Direction[] { Direction.Down, Direction.Up, Direction.Left, Direction.Right })
+            {
+                ushort[,] clone = (ushort[,])board.Clone();
+                if (Game.Update(clone, dir, out scoreTemp))
+                {
+                    isLost = false;
+                    return;
+                }
+            }
 
-        }
-        bool areMovesAvailable() {
-            return false;
+            // tried all directions. none worked.
+            isLost = true;
         }
         public String toString() {
             String ret = "";
