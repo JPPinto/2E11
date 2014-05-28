@@ -99,16 +99,27 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\1024.png" />
+    <Content Include="Assets\1024_black.png" />
     <Content Include="Assets\128.png" />
+    <Content Include="Assets\128_black.png" />
     <Content Include="Assets\16.png" />
+    <Content Include="Assets\16_black.png" />
     <Content Include="Assets\2.png" />
     <Content Include="Assets\2048.png" />
+    <Content Include="Assets\2048_black.png" />
     <Content Include="Assets\256.png" />
+    <Content Include="Assets\256_black.png" />
+    <Content Include="Assets\2_black.png" />
     <Content Include="Assets\32.png" />
+    <Content Include="Assets\32_black.png" />
     <Content Include="Assets\4.png" />
+    <Content Include="Assets\4_black.png" />
     <Content Include="Assets\512.png" />
+    <Content Include="Assets\512_black.png" />
     <Content Include="Assets\64.png" />
+    <Content Include="Assets\64_black.png" />
     <Content Include="Assets\8.png" />
+    <Content Include="Assets\8_black.png" />
     <Content Include="Assets\arrow.png" />
     <Content Include="Assets\cover.jpg" />
     <Content Include="Assets\gameBoard.png" />

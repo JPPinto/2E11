@@ -98,7 +98,7 @@ namespace _2e11
                 }
             }
 
-            this.score_value.Text = game.getScore().ToString();
+            this.score_value.Text = (game.getScore()/2).ToString();
         }
 
         private void addPiece(ushort value, int x_pos, int y_pos)
