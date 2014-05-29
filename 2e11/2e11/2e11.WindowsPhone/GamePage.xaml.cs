@@ -1,4 +1,6 @@
 ﻿using System;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -46,12 +48,21 @@ namespace _2e11
             game.addStartTiles();
 
             UpdateGrid();
-
+            DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(dataTransferManager_DataRequested);
+    
             // TODO: If your application contains multiple pages, ensure that you are
             // handling the hardware Back button by registering for the
             // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
+        }
+        private void dataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs e)
+        {
+            DataPackage requestData = e.Request.Data;
+            requestData.Properties.Title = "My HighScore In 2E11";
+            requestData.Properties.Description = "My HighScore In 2E11";
+            requestData.SetText("I got " + game.score + " points in 2E11! How much can you get?");
         }
 
         private void Image_Left_Tapped(object sender, TappedRoutedEventArgs e)
@@ -246,8 +257,11 @@ namespace _2e11
             UpdateGrid();
         }
 
-        private void shareScoreOnFacebook(){
-            Frame.Navigate(typeof(FacebookLoginPage));
+
+
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataTransferManager.ShowShareUI();
         }
 
         /// <summary>

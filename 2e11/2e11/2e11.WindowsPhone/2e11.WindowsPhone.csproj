@@ -87,12 +87,6 @@
     <Compile Include="Common\ObservableDictionary.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
-    <Compile Include="FacebookInfoPage.xaml.cs">
-      <DependentUpon>FacebookInfoPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="FacebookLoginPage.xaml.cs">
-      <DependentUpon>FacebookLoginPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -146,14 +140,6 @@
     <Page Include="AboutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="FacebookInfoPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="FacebookLoginPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>

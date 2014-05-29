@@ -60,6 +60,9 @@
     </Grid>
     <Page.BottomAppBar>
         <CommandBar ClosedDisplayMode="Minimal">
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Icon="ReShare" Label="Share" Click="AppBarButton_Click"/>
+            </CommandBar.PrimaryCommands>
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Uid="restartButton" x:Name="restartButton" Label="restart game" Click="ResetGame"/>
                 <AppBarButton x:Uid="exitButton" x:Name="exitButton" Label="abandon game" Click="ExitGame"/>
