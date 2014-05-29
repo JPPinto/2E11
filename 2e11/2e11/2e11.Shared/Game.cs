@@ -49,8 +49,8 @@ namespace _2e11 {
             }
 
             // We should have at least 1 empty slot. Since we know the user is not dead
-            ushort iSlot = (ushort) rnd.Next(0, emptySlots.Count); // randomly pick an empty slot
-            ushort value = rnd.Next(0, 100) < 95 ? (ushort)1 : (ushort)2; // randomly pick 2 (with 95% chance) or 4 (rest of the chance)
+            ushort iSlot = (ushort) rnd.Next(0, emptySlots.Count);
+            ushort value = rnd.Next(0, 100) < 95 ? (ushort)1 : (ushort)2;
             board[emptySlots[iSlot].Item1, emptySlots[iSlot].Item2] = value;
 
             // Check if we died
@@ -146,6 +146,7 @@ namespace _2e11 {
                 bool mergeOccurred = false;
 
                 for (ushort j = innerStart; innerCondition(j); j = reverseDrop(j)) {
+
                     if (getValue(i, j) == 0) {
                         continue;
                     }
@@ -157,7 +158,7 @@ namespace _2e11 {
                     // Continue probing along as long as we haven't hit the boundary and the new position isn't occupied
                     while (innerCondition(newJ) && getValue(i, newJ) == 0);
 
-                    if (innerCondition(newJ) && !mergeOccurred && getValue(i, newJ) == getValue(i, j)) {
+                    if (innerCondition(newJ) && getValue(i, newJ) == getValue(i, j)) {
                         // We did not hit the canvas boundary (we hit a node) AND no previous merge occurred AND the nodes' values are the same
                         // Let's merge
                         ushort newValue = (ushort) (getValue(i, newJ) + 1);
@@ -167,8 +168,8 @@ namespace _2e11 {
                         mergeOccurred = true;
                         hasUpdated = true;
                         scoreIn = (ulong) values[newValue];
-                    }
-                    else {
+
+                    } else {
                         // Reached the boundary OR...
                         // we hit a node with different value OR...
                         // we hit a node with same value BUT a prevous merge had occurred
