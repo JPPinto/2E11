@@ -6,8 +6,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace _2e11
 {
     /// <summary>
@@ -246,6 +244,10 @@ namespace _2e11
             game.addStartTiles();
 
             UpdateGrid();
+        }
+
+        private void shareScoreOnFacebook(){
+            Frame.Navigate(typeof(FacebookLoginPage));
         }
 
         /// <summary>

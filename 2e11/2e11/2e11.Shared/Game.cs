@@ -143,7 +143,6 @@ namespace _2e11 {
                 : new Action<ushort, ushort, ushort>((i, j, v) => boardIn[j, i] = v);
 
             for (ushort i = 0; i < outterCount; i++) {
-                bool mergeOccurred = false;
 
                 for (ushort j = innerStart; innerCondition(j); j = reverseDrop(j)) {
 
@@ -165,7 +164,6 @@ namespace _2e11 {
                         setValue(i, newJ, newValue);
                         setValue(i, j, 0);
 
-                        mergeOccurred = true;
                         hasUpdated = true;
                         scoreIn = (ulong) values[newValue];
 
