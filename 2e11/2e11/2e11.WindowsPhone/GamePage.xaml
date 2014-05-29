@@ -58,4 +58,11 @@
             </Image.RenderTransform>
         </Image>-->
     </Grid>
+    <Page.BottomAppBar>
+        <CommandBar ClosedDisplayMode="Minimal">
+            <CommandBar.SecondaryCommands>
+                <AppBarButton x:Uid="restartButton" x:Name="restartButton" Label="restart game" Click="ResetGame"/>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

@@ -37,7 +37,6 @@ namespace _2e11
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
-
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
         /// </summary>
@@ -213,10 +212,7 @@ namespace _2e11
             this.lose_panel.Visibility = Visibility.Collapsed;
             this.lose_text_block.Visibility = Visibility.Collapsed;
 
-            game.resetBoard();
-            game.addStartTiles();
-
-            UpdateGrid();
+            ResetGame();
         }
 
         private void Exit_Buttom_Click(object sender, RoutedEventArgs e)
@@ -237,5 +233,24 @@ namespace _2e11
         //{
         //    var velocities = e.Velocities;
         //}
+
+        private void AddAppBarButton_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void ResetGame(object sender, RoutedEventArgs e) {
+            ResetGame();
+        }
+
+        private void ResetGame() {
+            game.resetBoard();
+            game.addStartTiles();
+
+            UpdateGrid();
+        }
+
+        /// <summary>
+        /// Invoked when an item within a section is clicked.
+        /// </summary>
     }
 }
