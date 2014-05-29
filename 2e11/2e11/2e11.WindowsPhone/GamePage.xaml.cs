@@ -44,7 +44,10 @@ namespace _2e11
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // TODO: Prepare page for display here.
+            game.resetBoard();
+            game.addStartTiles();
+
+            UpdateGrid();
 
             // TODO: If your application contains multiple pages, ensure that you are
             // handling the hardware Back button by registering for the
@@ -223,19 +226,15 @@ namespace _2e11
             this.lose_panel.Visibility = Visibility.Collapsed;
             this.lose_text_block.Visibility = Visibility.Collapsed;
 
-            game.resetBoard();
-            game.addStartTiles();
 
-            UpdateGrid();
         }
 
         //public void OnManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
         //{
         //    var velocities = e.Velocities;
         //}
-
-        private void AddAppBarButton_Click(object sender, RoutedEventArgs e) {
-
+        private void ExitGame(object sender, RoutedEventArgs e) {
+            Frame.Navigate(typeof(MainPage));
         }
 
         private void ResetGame(object sender, RoutedEventArgs e) {

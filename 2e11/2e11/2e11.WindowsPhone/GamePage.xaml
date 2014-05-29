@@ -62,6 +62,7 @@
         <CommandBar ClosedDisplayMode="Minimal">
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Uid="restartButton" x:Name="restartButton" Label="restart game" Click="ResetGame"/>
+                <AppBarButton x:Uid="exitButton" x:Name="exitButton" Label="abandon game" Click="ExitGame"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
