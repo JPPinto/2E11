@@ -36,6 +36,7 @@
         <Button x:Name="restart_buttom" Content="Restart" HorizontalAlignment="Left" Margin="200,10,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderThickness="0,2" FontSize="18" FontFamily="Segoe WP Semibold" Width="153" Tapped="Restart_Button_Click"/>
         <TextBlock x:Name="lose_text_block" TextAlignment="Center" HorizontalAlignment="Left" Margin="126,261,0,0" TextWrapping="Wrap" Text="You Lost!" VerticalAlignment="Top" Height="39" Width="153" FontFamily="Segoe WP Semibold" FontSize="24" FontStyle="Italic" Visibility="Collapsed"/>
 
+        <!-- Add timer -->
         <!-- Buttoms backup -->
         <!--<Image x:Name="top_arrow" Source="Assets/arrow.png" HorizontalAlignment="Left" Height="60.974" Margin="169.25,462.513,0,0" VerticalAlignment="Top" Width="78.328" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Tapped="Image_Top_Tapped">
             <Image.RenderTransform>

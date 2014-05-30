@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Windows.System.Threading;
 
 namespace _2e11
 {
@@ -18,6 +19,7 @@ namespace _2e11
     {
 
         Game game;
+        DispatcherTimer timer;
 
         private double old_X;
         private double old_Y;
@@ -112,6 +114,7 @@ namespace _2e11
             this.score_value.Text = (game.getScore()/2).ToString();
 
             if (game.isLost) {
+                timer.Stop();
                 this.lose_buttom.Visibility = Visibility.Visible;
                 this.lose_panel.Visibility = Visibility.Visible;
                 this.lose_text_block.Visibility = Visibility.Visible;
@@ -237,6 +240,7 @@ namespace _2e11
         //    var velocities = e.Velocities;
         //}
         private void ExitGame(object sender, RoutedEventArgs e) {
+            timer.Stop();
             Frame.Navigate(typeof(MainPage));
         }
 
@@ -245,13 +249,25 @@ namespace _2e11
         }
 
         private void ResetGame() {
+            timer.Stop();
             game.resetBoard();
             game.addStartTiles();
 
+            
+            // Create new timer
+            timer = new DispatcherTimer();
+            timer.Interval = new TimeSpan(0, 0, 1);
+            // Crappy documentation strikes again
+            //timer.Tick += new EventHandler(timerFired);
+
             UpdateGrid();
+            timer.Start();
         }
 
-
+        private void timerFired(object sender, EventArgs e) {
+        // Update display
+           // txtClock.Text = DateTime.Now.ToString();
+        }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
