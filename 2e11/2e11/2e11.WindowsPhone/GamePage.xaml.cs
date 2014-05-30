@@ -135,7 +135,7 @@ namespace _2e11
 
             for (int i = 0; i < 11; i++) {
                 int value = (int) Math.Pow(2,i+1);
-                
+
                 var uri = new Uri("ms-appx:/Assets/" + value.ToString() + ".png", UriKind.RelativeOrAbsolute);
                 tiles[i] = new BitmapImage();
                 tiles[i].UriSource = uri;
@@ -183,34 +183,28 @@ namespace _2e11
 
             if (horizontal)
             {
-                score_value.Text = "100";
                 if (new_X - old_X > 0)
                 {
                     //Positivo horizontal
                     game.moveRight();
-                    score_value.Text = "2";
                 }
                 else
                 {
                     //negativo horizontal 
                     game.moveLeft();
-                    score_value.Text = "4";
                 }
             }
             else
             {
-                score_value.Text = "200";
                 if (new_Y - old_Y > 0)
                 {
                     //Positivo vertical
                     game.moveDown();
-                    score_value.Text = "3";
                 }
                 else
                 {
                     //negativo vertical 
                     game.moveUp();
-                    score_value.Text = "1";
                 }
             }
 
