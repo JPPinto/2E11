@@ -15,6 +15,27 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using Tweetinvi;
+using Tweetinvi.Core.Enum;
+using Tweetinvi.Core.Extensions;
+using Tweetinvi.Core.Interfaces;
+using Tweetinvi.Core.Interfaces.Controllers;
+using Tweetinvi.Core.Interfaces.DTO;
+using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Core.Interfaces.oAuth;
+using Tweetinvi.Core.Interfaces.Streaminvi;
+using Tweetinvi.Json;
+using Geo = Tweetinvi.Geo;
+using SavedSearch = Tweetinvi.SavedSearch;
+using Stream = Tweetinvi.Stream;
+using System.Threading;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -114,7 +135,23 @@ namespace _2e11
         }
         private void About_Button_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(AboutPage));
+            //Frame.Navigate(typeof(AboutPage));
+            sendTweet();
+        }
+
+        private void sendTweet()
+        {
+            TwitterCredentials.SetCredentials("217422434-WOFI7qFmI3yQuQmuMuBLVcOWyqDMfeY9InJQX6SZ",
+                "S0gAFOjwAqqQfdhXptjZ5DuudxFKX3zjTO0IQOtPLTxbr",
+                "JFgGb0OZfnKRlhf41NlhSZuiv",
+                "ABnIXNTs8HKPN4HMUp5I5unhKqMoctHJcvawyeQ5PNM5XtERxF");
+
+                Tweet.PublishTweet("HELLO POTATOES!!");
+        }
+
+        private void Lobby_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(LobbyPage));
         }
     }
 }

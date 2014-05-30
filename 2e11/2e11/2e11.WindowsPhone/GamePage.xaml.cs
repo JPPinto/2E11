@@ -62,7 +62,7 @@ namespace _2e11
             DataPackage requestData = e.Request.Data;
             requestData.Properties.Title = "My HighScore In 2E11";
             requestData.Properties.Description = "My HighScore In 2E11";
-            requestData.SetText("I got " + game.score + " points in 2E11! How much can you get?");
+            requestData.SetText("I got " + game.score/2 + " points in 2E11! How much can you get?");
         }
 
         private void Image_Left_Tapped(object sender, TappedRoutedEventArgs e)

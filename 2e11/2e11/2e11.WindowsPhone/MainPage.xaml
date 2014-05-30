@@ -27,8 +27,10 @@
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
             <Image Source="Assets/title.png" Margin="10,-60,-10,59.667"/>
             <Image Source="Assets/cover.jpg" Margin="-206,208,206,165" Grid.RowSpan="2"/>
-            <Button Content="Start" HorizontalAlignment="Left" Margin="96,297,0,0" VerticalAlignment="Top" Click="Start_Button_Click" BorderThickness="0,2" Width="170"/>
-            <Button Content="About" HorizontalAlignment="Left" Margin="96,362,0,0" VerticalAlignment="Top" Click="About_Button_Click" BorderThickness="0,2" Width="170"/>
+            <Button Content="Quick Game" HorizontalAlignment="Left" Margin="96,242,0,0" VerticalAlignment="Top" Click="Start_Button_Click" BorderThickness="0,2" Width="170"/>
+            <Button Content="Multiplayer Game" HorizontalAlignment="Left" Margin="96,301,0,0" VerticalAlignment="Top" Click="Lobby_Button_Click" BorderThickness="0,2" Width="170"/>
+
+            <Button Content="About" HorizontalAlignment="Left" Margin="96,363,0,0" VerticalAlignment="Top" Click="About_Button_Click" BorderThickness="0,2" Width="170"/>
         </Grid>
 
     </Grid>

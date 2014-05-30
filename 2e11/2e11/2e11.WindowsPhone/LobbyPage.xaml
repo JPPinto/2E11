@@ -1,0 +1,20 @@
+﻿<Page
+    x:Class="_2e11.LobbyPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:_2e11"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Image Source="Assets/cover.jpg" Margin="-206,208,206,165" Grid.RowSpan="2"/>
+        <RadioButton x:Name="point3" HorizontalAlignment="Left" Margin="241,160,-9,0" VerticalAlignment="Top" Visibility="Collapsed"/>
+        <RadioButton x:Name="point2" HorizontalAlignment="Left" Margin="189,160,0,0" VerticalAlignment="Top" Visibility="Collapsed"/>
+        <RadioButton x:Name="point1" HorizontalAlignment="Left" Margin="134,160,0,0" VerticalAlignment="Top" Visibility="Collapsed"/>
+        <Button Content="Find Player" HorizontalAlignment="Left" Margin="145,564,0,0" VerticalAlignment="Top" BorderThickness="0,2" FontFamily="Segoe WP Semibold" Click="Button_Click"/>
+        <!--Button Content="PlaySingle" HorizontalAlignment="Left" Margin="265,545,0,0" VerticalAlignment="Top"/-->
+        
+    </Grid>
+</Page>
