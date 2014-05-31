@@ -36,7 +36,10 @@ namespace _2e11
             game = new Game();
             animating = false;
 
+            initializeTimer();
+
             UpdateGrid();
+            timer.Start();
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
@@ -254,21 +257,25 @@ namespace _2e11
             game.resetBoard();
             game.addStartTiles();
 
-            
-            // Create new timer
-            timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(0, 0, 1);
-            // Crappy documentation strikes again
-            //timer.Tick += new EventHandler(timerFired);
-
             tMins = 0;
             tSecs = 0;
 
-            UpdateGrid();
             timer.Start();
+
+            UpdateGrid();
         }
 
-        private void timerFired(object sender, EventArgs e) {
+        private void initializeTimer() {
+            timer = new DispatcherTimer();
+            timer.Interval = new TimeSpan(0, 0, 1);
+            // Crappy documentation strikes again
+            timer.Tick += new EventHandler<object>(timerFired);
+
+            tMins = 0;
+            tSecs = 0;
+        }
+
+        private void timerFired(object sender, object e) {
             if (tSecs == 59) { 
                 tSecs = 0;
                 tMins++;
@@ -276,8 +283,14 @@ namespace _2e11
             else { 
                 tSecs++;
             }
+
+            if (tSecs > 9) {
+                timer_value.Text = tMins.ToString() + ":" + tSecs.ToString();
+            }
+            else {
+                timer_value.Text = tMins.ToString() + ":0" + tSecs.ToString();
+            }
             
-            timer_value.Text = tMins.ToString() + ":" + tSecs.ToString();
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
