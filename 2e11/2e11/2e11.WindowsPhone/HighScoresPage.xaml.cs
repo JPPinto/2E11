@@ -16,10 +16,10 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Threading;
-using Windows.Web.Http;
-using Windows.Web.Http.Filters;
 using Newtonsoft.Json.Linq;
 using Windows.UI;
+using System.Net.Http;
+using System.Net;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -110,33 +110,50 @@ namespace _2e11
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             this.navigationHelper.OnNavigatedFrom(e);
+            clearListBoxElements();
         }
 
         #endregion
 
         private async void getHighScores()
         {
-            var uri = new Uri("http://nameless-meadow-9441.herokuapp.com/allScores");
-            var request = new HttpRequestMessage();
-            request.RequestUri = uri;
-            HttpClient httpClient = new HttpClient();
+            var uri = new Uri("http://nameless-meadow-9441.herokuapp.com/scores");
+            HttpRequestMessage requestMessage = new HttpRequestMessage();
+            requestMessage.RequestUri = uri;
+            var httpClient = new HttpClient(new HttpClientHandler());
 
+            HttpWebRequest request = HttpWebRequest.CreateHttp(uri);
+            if (request.Headers == null)
+                request.Headers = new WebHeaderCollection();
+            request.Headers[HttpRequestHeader.IfModifiedSince] = DateTime.UtcNow.ToString();
+            
             // Always catch network exceptions for async methods.
             try
             {
-                var result = await httpClient.GetStringAsync(uri);
+                WebResponse response = await request.GetResponseAsync();
+                
+                //response.EnsureSuccessStatusCode();
+                //var responseString = await response.Content.ReadAsStringAsync();
 
-                ParseArray(result);
+                using (var reader = new StreamReader(response.GetResponseStream()))
+                {
+                    string result = reader.ReadToEnd(); // do something fun...
+                    ParseArray(result);
+                }
+
+                
+
             }
             catch
             {
+                int x = 0;
                 // Details in ex.Message and ex.HResult.       
             }
 
             // Once your app is done using the HttpClient object call dispose to 
             // free up system resources (the underlying socket and memory used for the object)
-            httpClient.Dispose();
-
+            //httpClient.Dispose();
+            
 
             //CreateHttpClient(ref httpClient);
         }
@@ -159,7 +176,7 @@ namespace _2e11
                 item.FontSize = 20;
                 item.FontFamily = new FontFamily("Segoe WP Semibold");
                 item.Foreground = new SolidColorBrush(Colors.White);
-                
+
                 scores.Items.Add(item);
 
                 //Be careful, you take the next from the current item, not from the JArray object.
@@ -167,5 +184,17 @@ namespace _2e11
             }
         }
 
+        private void About_Button_Click(object sender, RoutedEventArgs e)
+        {
+            clearListBoxElements();
+            getHighScores();
+        }
+
+        private void clearListBoxElements()
+        {
+            while (scores.Items.Count != 0)
+                for (int i = 0; i < scores.Items.Count; i++)
+                    scores.Items.RemoveAt(i);
+        }
     }
 }
