@@ -297,9 +297,5 @@ namespace _2e11
         {
             DataTransferManager.ShowShareUI();
         }
-
-        /// <summary>
-        /// Invoked when an item within a section is clicked.
-        /// </summary>
     }
 }
