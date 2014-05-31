@@ -229,11 +229,12 @@ namespace _2e11
             Frame.Navigate(typeof(MainPage));
         }
 
-        private void ShareFB_Buttom_Click(object sender, RoutedEventArgs e) { 
-        
+        private void ShareFB_Buttom_Click(object sender, RoutedEventArgs e) {
+            DataTransferManager.ShowShareUI();
         }
 
         private void ShareTW_Buttom_Click(object sender, RoutedEventArgs e) { 
+            
         }
 
         //public void OnManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
