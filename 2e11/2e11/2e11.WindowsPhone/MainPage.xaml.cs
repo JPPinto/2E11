@@ -135,18 +135,25 @@ namespace _2e11
         }
         private void About_Button_Click(object sender, RoutedEventArgs e)
         {
-            //Frame.Navigate(typeof(AboutPage));
-            sendTweet();
+            Frame.Navigate(typeof(AboutPage));
+            //sendTweet();
         }
 
         private void sendTweet()
         {
-            TwitterCredentials.SetCredentials("217422434-WOFI7qFmI3yQuQmuMuBLVcOWyqDMfeY9InJQX6SZ",
-                "S0gAFOjwAqqQfdhXptjZ5DuudxFKX3zjTO0IQOtPLTxbr",
-                "JFgGb0OZfnKRlhf41NlhSZuiv",
-                "ABnIXNTs8HKPN4HMUp5I5unhKqMoctHJcvawyeQ5PNM5XtERxF");
+            try
+            {
+                TwitterCredentials.SetCredentials("217422434-WOFI7qFmI3yQuQmuMuBLVcOWyqDMfeY9InJQX6SZ",
+                    "S0gAFOjwAqqQfdhXptjZ5DuudxFKX3zjTO0IQOtPLTxbr",
+                    "JFgGb0OZfnKRlhf41NlhSZuiv",
+                    "ABnIXNTs8HKPN4HMUp5I5unhKqMoctHJcvawyeQ5PNM5XtERxF");
 
                 Tweet.PublishTweet("HELLO POTATOES!!");
+            }
+            catch
+            {
+
+            }
         }
 
         private void Lobby_Button_Click(object sender, RoutedEventArgs e)
