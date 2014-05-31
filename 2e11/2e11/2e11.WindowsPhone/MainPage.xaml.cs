@@ -48,6 +48,7 @@ namespace _2e11
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
+        public readonly static string URL = "http://nameless-meadow-9441.herokuapp.com/";
 
         public MainPage()
         {

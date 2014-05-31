@@ -117,7 +117,7 @@ namespace _2e11
 
         private async void getHighScores()
         {
-            var uri = new Uri("http://nameless-meadow-9441.herokuapp.com/scores");
+            var uri = new Uri(MainPage.URL + "scores");
             HttpRequestMessage requestMessage = new HttpRequestMessage();
             requestMessage.RequestUri = uri;
             var httpClient = new HttpClient(new HttpClientHandler());
@@ -138,27 +138,104 @@ namespace _2e11
                 using (var reader = new StreamReader(response.GetResponseStream()))
                 {
                     string result = reader.ReadToEnd(); // do something fun...
-                    ParseArray(result);
+                    ParseScores(result);
                 }
+            }
+            catch
+            {
+                // Details in ex.Message and ex.HResult.       
+            }
+        }
 
+        private async void getConnectedPlayers()
+        {
+            /*var uri = new Uri(MainPage.URL + "players");
+            HttpRequestMessage requestMessage = new HttpRequestMessage();
+            requestMessage.RequestUri = uri;
+            var httpClient = new HttpClient(new HttpClientHandler());
+
+            HttpWebRequest request = HttpWebRequest.CreateHttp(uri);
+            if (request.Headers == null)
+                request.Headers = new WebHeaderCollection();
+            request.Headers[HttpRequestHeader.IfModifiedSince] = DateTime.UtcNow.ToString();
+
+            // Always catch network exceptions for async methods.
+            try
+            {
+                WebResponse response = await request.GetResponseAsync();
+
+                //response.EnsureSuccessStatusCode();
+                //var responseString = await response.Content.ReadAsStringAsync();
+
+                using (var reader = new StreamReader(response.GetResponseStream()))
+                {
+                    string result = reader.ReadToEnd(); // do something fun...
+                    ParseScores(result);
+                }
+            }
+            catch
+            {
+                // Details in ex.Message and ex.HResult.       
+            }*/
+        }
+
+        private async void postHighScore(String user, String v, String t)
+        {
+            var uri = new Uri(MainPage.URL + "scores");
+            var httpClient = new HttpClient(new HttpClientHandler());
+
+              var values = new List<KeyValuePair<string, string>>{
+                    new KeyValuePair<string, string>("username",user),
+                    new KeyValuePair<string, string>("value",v),
+                    new KeyValuePair<string, string>("time",t) 
+              };
+             
+            // Always catch network exceptions for async methods.
+            try
+            {
+                HttpResponseMessage response = await httpClient.PostAsync(uri, new FormUrlEncodedContent(values));
+                response.EnsureSuccessStatusCode();
+                var responseString = await response.Content.ReadAsStringAsync();
+
+                if (responseString.Equals("Added")) return;             
                 
+            }
+            catch
+            {
+                // Details in ex.Message and ex.HResult.       
+            }
+
+        }
+
+        private async void postPlayer(String user)
+        {
+            var uri = new Uri(MainPage.URL + "addConnectPlayer");
+            var httpClient = new HttpClient(new HttpClientHandler());
+
+            var values = new List<KeyValuePair<string, string>>{
+                    new KeyValuePair<string, string>("username",user),
+                    new KeyValuePair<string, string>("hasWon","no"),
+                    new KeyValuePair<string, string>("hasLost","no") 
+              };
+
+            // Always catch network exceptions for async methods.
+            try
+            {
+                HttpResponseMessage response = await httpClient.PostAsync(uri, new FormUrlEncodedContent(values));
+                response.EnsureSuccessStatusCode();
+                var responseString = await response.Content.ReadAsStringAsync();
+
+                if (responseString.Equals("Added")) return;
 
             }
             catch
             {
-                int x = 0;
                 // Details in ex.Message and ex.HResult.       
             }
 
-            // Once your app is done using the HttpClient object call dispose to 
-            // free up system resources (the underlying socket and memory used for the object)
-            //httpClient.Dispose();
-            
-
-            //CreateHttpClient(ref httpClient);
         }
 
-        public void ParseArray(string jsonArrayAsString)
+        public void ParseScores(string jsonArrayAsString)
         {
             JArray jsonArray = JArray.Parse(jsonArrayAsString);
             JToken jsonArray_Item = jsonArray.First;
