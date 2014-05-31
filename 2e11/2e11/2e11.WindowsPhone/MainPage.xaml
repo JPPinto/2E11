@@ -30,8 +30,8 @@
             <Button Content="Quick Game" HorizontalAlignment="Left" Margin="96,242,0,0" VerticalAlignment="Top" Click="Start_Button_Click" BorderThickness="0,2" Width="170"/>
             <Button Content="Multiplayer Game" HorizontalAlignment="Left" Margin="96,301,0,0" VerticalAlignment="Top" Click="Lobby_Button_Click" BorderThickness="0,2" Width="170"/>
 
-            <Button Content="About" HorizontalAlignment="Left" Margin="96,363,0,0" VerticalAlignment="Top" Click="About_Button_Click" BorderThickness="0,2" Width="170"/>
+            <Button Content="About" HorizontalAlignment="Left" Margin="96,418,0,0" VerticalAlignment="Top" Click="About_Button_Click" BorderThickness="0,2" Width="170"/>
+            <Button Content="High Scores" HorizontalAlignment="Left" Margin="96,359,0,0" VerticalAlignment="Top" Click="HighScores_Button_Click" BorderThickness="0,2" Width="170"/>
         </Grid>
-
     </Grid>
 </Page>

@@ -153,5 +153,10 @@ namespace _2e11
         {
             Frame.Navigate(typeof(LobbyPage));
         }
+
+        private void HighScores_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(HighScoresPage));
+        }
     }
 }

@@ -15,6 +15,11 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.Threading;
+using Windows.Web.Http;
+using Windows.Web.Http.Filters;
+using Newtonsoft.Json.Linq;
+using Windows.UI;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -99,6 +104,7 @@ namespace _2e11
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this.navigationHelper.OnNavigatedTo(e);
+            getHighScores();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -107,5 +113,59 @@ namespace _2e11
         }
 
         #endregion
+
+        private async void getHighScores()
+        {
+            var uri = new Uri("http://nameless-meadow-9441.herokuapp.com/allScores");
+            var request = new HttpRequestMessage();
+            request.RequestUri = uri;
+            HttpClient httpClient = new HttpClient();
+
+            // Always catch network exceptions for async methods.
+            try
+            {
+                var result = await httpClient.GetStringAsync(uri);
+
+                ParseArray(result);
+            }
+            catch
+            {
+                // Details in ex.Message and ex.HResult.       
+            }
+
+            // Once your app is done using the HttpClient object call dispose to 
+            // free up system resources (the underlying socket and memory used for the object)
+            httpClient.Dispose();
+
+
+            //CreateHttpClient(ref httpClient);
+        }
+
+        public void ParseArray(string jsonArrayAsString)
+        {
+            JArray jsonArray = JArray.Parse(jsonArrayAsString);
+            JToken jsonArray_Item = jsonArray.First;
+            while (jsonArray_Item != null)
+            {
+                string username = jsonArray_Item.Value<string>("username");
+                string value = jsonArray_Item.Value<string>("value");
+                string time = jsonArray_Item.Value<string>("time");
+
+                string totalString = username + "\t" + value + "\t" + time + "\t";
+
+                ListBoxItem item = new ListBoxItem();
+
+                item.Content = totalString;
+                item.FontSize = 20;
+                item.FontFamily = new FontFamily("Segoe WP Semibold");
+                item.Foreground = new SolidColorBrush(Colors.White);
+                
+                scores.Items.Add(item);
+
+                //Be careful, you take the next from the current item, not from the JArray object.
+                jsonArray_Item = jsonArray_Item.Next;
+            }
+        }
+
     }
 }

@@ -52,11 +52,9 @@ namespace _2e11
             try 
             {
                 var result = await httpClient.GetStringAsync(uri);
-                int x = 0;
             }
             catch
             {
-                Back.Visibility = Visibility.Collapsed;
                 // Details in ex.Message and ex.HResult.       
             }
 
