@@ -34,8 +34,12 @@
         <TextBlock x:Name="timer_value" TextAlignment="Left" IsTextScaleFactorEnabled="True" HorizontalAlignment="Right" Height="24" Margin="200,34,0,0" TextWrapping="Wrap" Text="--:--" VerticalAlignment="Top" Width="185" FontSize="20" FontFamily="Segoe UI Semibold" IsColorFontEnabled="True" Foreground="White" IsTextSelectionEnabled="False" />
 
         <Rectangle x:Name="lose_panel" Fill="Black" HorizontalAlignment="Left" Height="640" Margin="2,0,0,0" Stroke="Black" VerticalAlignment="Top" Width="398" Opacity="0.6" Visibility="Collapsed"/>
-        <Button x:Name="lose_buttom" Content="Exit" HorizontalAlignment="Left" Margin="126,308,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderThickness="0,2" FontSize="18" FontFamily="Segoe WP Semibold" Width="153" Tapped="Exit_Buttom_Click" Visibility="Collapsed"/>
-        <TextBlock x:Name="lose_text_block" TextAlignment="Center" HorizontalAlignment="Left" Margin="126,261,0,0" TextWrapping="Wrap" Text="You Lost!" VerticalAlignment="Top" Height="39" Width="153" FontFamily="Segoe WP Semibold" FontSize="24" FontStyle="Italic" Visibility="Collapsed"/>
+        <Button x:Name="restart_buttom" Content="try again" HorizontalAlignment="Left" Margin="126,200,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderThickness="0,2" FontSize="18" FontFamily="Segoe WP Semibold" Width="153" Tapped="Restart_Button_Click" Visibility="Collapsed"/>
+        <Button x:Name="lose_buttom"    Content="exit"      HorizontalAlignment="Left" Margin="126,250,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderThickness="0,2" FontSize="18" FontFamily="Segoe WP Semibold" Width="153" Tapped="Exit_Buttom_Click" Visibility="Collapsed"/>
+        <Button x:Name="sharefb_buttom" Content="facebook"  HorizontalAlignment="Left" Margin="126,400,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderThickness="0,2" FontSize="18" FontFamily="Segoe WP Semibold" Width="153" Tapped="ShareFB_Buttom_Click" Visibility="Collapsed"/>
+        <Button x:Name="sharetw_buttom" Content="twitter"   HorizontalAlignment="Left" Margin="126,450,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderThickness="0,2" FontSize="18" FontFamily="Segoe WP Semibold" Width="153" Tapped="ShareTW_Buttom_Click" Visibility="Collapsed"/>
+        <TextBlock x:Name="lose_text_block" TextAlignment="Center" HorizontalAlignment="Left" Margin="126,150,0,0" TextWrapping="Wrap" Text="You Lost!" VerticalAlignment="Top" Height="39" Width="153" FontFamily="Segoe WP Semibold" FontSize="24" FontStyle="Italic" Visibility="Collapsed"/>
+        <TextBlock x:Name="lose_share_text_block" TextAlignment="Center" HorizontalAlignment="Left" Margin="126,320,0,0" TextWrapping="Wrap" Text="Annoy your friends on:" VerticalAlignment="Top" Height="70" Width="153" FontFamily="Segoe WP Semibold" FontSize="24" FontStyle="Italic" Visibility="Collapsed"/>
 
     </Grid>
     <Page.BottomAppBar>

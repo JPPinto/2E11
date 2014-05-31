@@ -119,9 +119,7 @@ namespace _2e11
 
             if (game.isLost) {
                 timer.Stop();
-                this.lose_buttom.Visibility = Visibility.Visible;
-                this.lose_panel.Visibility = Visibility.Visible;
-                this.lose_text_block.Visibility = Visibility.Visible;
+                showLostOverlay();
             }
         }
 
@@ -221,22 +219,21 @@ namespace _2e11
 
         private void Restart_Button_Click(object sender, RoutedEventArgs e)
         {
-            this.lose_buttom.Visibility = Visibility.Collapsed;
-            this.lose_panel.Visibility = Visibility.Collapsed;
-            this.lose_text_block.Visibility = Visibility.Collapsed;
-
+            hideLostOverlay();
             ResetGame();
         }
 
         private void Exit_Buttom_Click(object sender, RoutedEventArgs e)
         {
+            hideLostOverlay();
             Frame.Navigate(typeof(MainPage));
+        }
 
-            this.lose_buttom.Visibility = Visibility.Collapsed;
-            this.lose_panel.Visibility = Visibility.Collapsed;
-            this.lose_text_block.Visibility = Visibility.Collapsed;
+        private void ShareFB_Buttom_Click(object sender, RoutedEventArgs e) { 
+        
+        }
 
-
+        private void ShareTW_Buttom_Click(object sender, RoutedEventArgs e) { 
         }
 
         //public void OnManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
@@ -296,6 +293,32 @@ namespace _2e11
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
             DataTransferManager.ShowShareUI();
+        }
+
+        private void showLostOverlay() {
+            this.restart_buttom.Visibility = Visibility.Visible;
+            this.lose_buttom.Visibility = Visibility.Visible;
+
+            this.lose_panel.Visibility = Visibility.Visible;
+            
+            this.lose_text_block.Visibility = Visibility.Visible;
+            this.lose_share_text_block.Visibility = Visibility.Visible;
+            
+            this.sharefb_buttom.Visibility = Visibility.Visible;
+            this.sharetw_buttom.Visibility = Visibility.Visible;
+        }
+
+        private void hideLostOverlay() {
+            this.restart_buttom.Visibility = Visibility.Collapsed;
+            this.lose_buttom.Visibility = Visibility.Collapsed;
+
+            this.lose_panel.Visibility = Visibility.Collapsed;
+
+            this.lose_text_block.Visibility = Visibility.Collapsed;
+            this.lose_share_text_block.Visibility = Visibility.Collapsed;
+
+            this.sharefb_buttom.Visibility = Visibility.Collapsed;
+            this.sharetw_buttom.Visibility = Visibility.Collapsed;
         }
     }
 }
