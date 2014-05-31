@@ -13,6 +13,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Threading;
+using Windows.Web.Http;
+using Windows.Web.Http.Filters;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -39,21 +41,53 @@ namespace _2e11
         {
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e) 
         {
+            var uri = new Uri("http://nameless-meadow-9441.herokuapp.com/allScores");
+            var request = new HttpRequestMessage();
+            request.RequestUri = uri;
+            HttpClient httpClient = new HttpClient();
 
-            point1.Visibility = Visibility.Visible;
-            point2.Visibility = Visibility.Visible;
-            point3.Visibility = Visibility.Visible;
-
-            for (int i = 0; i < timeout; i++) {
-                point1.IsChecked = true;
-                
-                point2.IsChecked = true;
-                //System.Threading.Thread.Sleep(50);
-                point3.IsChecked = true;
-
+            // Always catch network exceptions for async methods.
+            try 
+            {
+                var result = await httpClient.GetStringAsync(uri);
+                int x = 0;
             }
+            catch
+            {
+                Back.Visibility = Visibility.Collapsed;
+                // Details in ex.Message and ex.HResult.       
+            }
+
+            // Once your app is done using the HttpClient object call dispose to 
+            // free up system resources (the underlying socket and memory used for the object)
+            httpClient.Dispose();
+
+
+            //CreateHttpClient(ref httpClient);
+        }
+
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MainPage));
+        }
+
+        internal static void CreateHttpClient(ref HttpClient httpClient)
+        {
+            if (httpClient != null)
+            {
+                httpClient.Dispose();
+            }
+
+            // Extend HttpClient by chaining filters together
+            // and then providing HttpClient with the configured filter pipeline.
+            var basefilter = new HttpBaseProtocolFilter();
+
+            // Adds a custom header to every request and response message.
+            var myfilter = new PlugInFilter(basefilter);
+            httpClient = new HttpClient(myfilter);
+
         }
     }
 }

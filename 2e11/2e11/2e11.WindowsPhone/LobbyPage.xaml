@@ -10,11 +10,16 @@
 
     <Grid>
         <Image Source="Assets/cover.jpg" Margin="-206,208,206,165" Grid.RowSpan="2"/>
-        <RadioButton x:Name="point3" HorizontalAlignment="Left" Margin="241,160,-9,0" VerticalAlignment="Top" Visibility="Collapsed"/>
-        <RadioButton x:Name="point2" HorizontalAlignment="Left" Margin="189,160,0,0" VerticalAlignment="Top" Visibility="Collapsed"/>
-        <RadioButton x:Name="point1" HorizontalAlignment="Left" Margin="134,160,0,0" VerticalAlignment="Top" Visibility="Collapsed"/>
         <Button Content="Find Player" HorizontalAlignment="Left" Margin="145,564,0,0" VerticalAlignment="Top" BorderThickness="0,2" FontFamily="Segoe WP Semibold" Click="Button_Click"/>
         <!--Button Content="PlaySingle" HorizontalAlignment="Left" Margin="265,545,0,0" VerticalAlignment="Top"/-->
         
     </Grid>
+
+    <Page.BottomAppBar>
+        <CommandBar ClosedDisplayMode="Minimal">
+            <CommandBar.PrimaryCommands>
+                <AppBarButton x:Name="Back" Label="Back" Click="AppBarButton_Click"/>
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>
