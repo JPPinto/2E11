@@ -20,6 +20,7 @@ namespace _2e11
 
         Game game;
         DispatcherTimer timer;
+        ushort tMins, tSecs;
 
         private double old_X;
         private double old_Y;
@@ -260,13 +261,23 @@ namespace _2e11
             // Crappy documentation strikes again
             //timer.Tick += new EventHandler(timerFired);
 
+            tMins = 0;
+            tSecs = 0;
+
             UpdateGrid();
             timer.Start();
         }
 
         private void timerFired(object sender, EventArgs e) {
-        // Update display
-           // txtClock.Text = DateTime.Now.ToString();
+            if (tSecs == 59) { 
+                tSecs = 0;
+                tMins++;
+            }
+            else { 
+                tSecs++;
+            }
+            
+            timer_value.Text = tMins.ToString() + ":" + tSecs.ToString();
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
