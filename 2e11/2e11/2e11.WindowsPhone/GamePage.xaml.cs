@@ -8,6 +8,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Windows.System.Threading;
+using System.Net.Http;
+using System.Collections.Generic;
 
 namespace _2e11
 {
@@ -119,7 +121,13 @@ namespace _2e11
 
             if (game.isLost) {
                 timer.Stop();
-                showLostOverlay();
+                showSubmitMenu("You Lose...");
+            }
+
+            if (game.isWon)
+            {
+                timer.Stop();
+                showSubmitMenu("You Win!");
             }
         }
 
@@ -219,13 +227,13 @@ namespace _2e11
 
         private void Restart_Button_Click(object sender, RoutedEventArgs e)
         {
-            hideLostOverlay();
+            hideOverlay();
             ResetGame();
         }
 
         private void Exit_Buttom_Click(object sender, RoutedEventArgs e)
         {
-            hideLostOverlay();
+            hideOverlay();
             Frame.Navigate(typeof(MainPage));
         }
 
@@ -296,7 +304,8 @@ namespace _2e11
             DataTransferManager.ShowShareUI();
         }
 
-        private void showLostOverlay() {
+        private void showOverlay() {
+
             this.restart_buttom.Visibility = Visibility.Visible;
             this.lose_buttom.Visibility = Visibility.Visible;
 
@@ -309,7 +318,7 @@ namespace _2e11
             this.sharetw_buttom.Visibility = Visibility.Visible;
         }
 
-        private void hideLostOverlay() {
+        private void hideOverlay() {
             this.restart_buttom.Visibility = Visibility.Collapsed;
             this.lose_buttom.Visibility = Visibility.Collapsed;
 
@@ -320,6 +329,84 @@ namespace _2e11
 
             this.sharefb_buttom.Visibility = Visibility.Collapsed;
             this.sharetw_buttom.Visibility = Visibility.Collapsed;
+        }
+
+        private void showSubmitMenu(string gameState){
+
+            lose_text_block.Text = gameState;
+
+            limit_text_block.Visibility = Visibility.Visible;
+            this.lose_panel.Visibility = Visibility.Visible;
+            lose_text_block.Visibility = Visibility.Visible;
+            userTextHolder.Visibility = Visibility.Visible;
+            submit_text_block.Visibility = Visibility.Visible;
+            submit_button.Visibility = Visibility.Visible;
+            cancel_button.Visibility = Visibility.Visible;
+
+        }
+
+        private void hideSubmitMenu()
+        {
+            limit_text_block.Visibility = Visibility.Collapsed;
+            this.lose_panel.Visibility = Visibility.Collapsed;
+            lose_text_block.Visibility = Visibility.Collapsed;
+            userTextHolder.Visibility = Visibility.Collapsed;
+            submit_text_block.Visibility = Visibility.Collapsed;
+            submit_button.Visibility = Visibility.Collapsed;
+            cancel_button.Visibility = Visibility.Collapsed;
+        }
+
+
+        private void Submit_Button_Click(object sender, RoutedEventArgs e)
+        {
+            string nickname = userTextHolder.Text;
+            if (nickname.Length == 0) return;
+            
+            if(nickname.Length > 6)
+                nickname = nickname.Substring(0,6);
+
+            string time_to_complete = ((tMins * 60) + tSecs).ToString();
+            string temp_score = (game.getScore() / 2).ToString();
+
+            postHighScore(nickname, game.getScore().ToString(), time_to_complete);
+
+            hideSubmitMenu();
+            showOverlay();
+        }
+
+        private async void postHighScore(String user, String v, String t)
+        {
+            var uri = new Uri(MainPage.URL + "scores");
+            var httpClient = new HttpClient(new HttpClientHandler());
+
+            var values = new List<KeyValuePair<string, string>>{
+                    new KeyValuePair<string, string>("username",user),
+                    new KeyValuePair<string, string>("val",v),
+                    new KeyValuePair<string, string>("ti",t) 
+              };
+
+            // Always catch network exceptions for async methods.
+            try
+            {
+                HttpResponseMessage response = await httpClient.PostAsync(uri, new FormUrlEncodedContent(values));
+                response.EnsureSuccessStatusCode();
+                var responseString = await response.Content.ReadAsStringAsync();
+
+                if (responseString.Equals("Added")) return;
+
+            }
+            catch
+            {
+                // Details in ex.Message and ex.HResult.       
+            }
+
+        }
+
+        private void Cancel_Button_Click(object sender, RoutedEventArgs e)
+        {
+            hideSubmitMenu();
+            userTextHolder.Text = "Enter a Nickname";
+            showOverlay();
         }
     }
 }

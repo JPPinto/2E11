@@ -179,43 +179,15 @@ namespace _2e11
             }*/
         }
 
-        private async void postHighScore(String user, String v, String t)
-        {
-            var uri = new Uri(MainPage.URL + "scores");
-            var httpClient = new HttpClient(new HttpClientHandler());
-
-              var values = new List<KeyValuePair<string, string>>{
-                    new KeyValuePair<string, string>("username",user),
-                    new KeyValuePair<string, string>("value",v),
-                    new KeyValuePair<string, string>("time",t) 
-              };
-             
-            // Always catch network exceptions for async methods.
-            try
-            {
-                HttpResponseMessage response = await httpClient.PostAsync(uri, new FormUrlEncodedContent(values));
-                response.EnsureSuccessStatusCode();
-                var responseString = await response.Content.ReadAsStringAsync();
-
-                if (responseString.Equals("Added")) return;             
-                
-            }
-            catch
-            {
-                // Details in ex.Message and ex.HResult.       
-            }
-
-        }
-
-        private async void postPlayer(String user)
+        private async void postPlayer(String user, String w, String l)
         {
             var uri = new Uri(MainPage.URL + "addConnectPlayer");
             var httpClient = new HttpClient(new HttpClientHandler());
 
             var values = new List<KeyValuePair<string, string>>{
-                    new KeyValuePair<string, string>("username",user),
-                    new KeyValuePair<string, string>("hasWon","no"),
-                    new KeyValuePair<string, string>("hasLost","no") 
+                    new KeyValuePair<string, string>("username", user),
+                    new KeyValuePair<string, string>("hasWon", w),
+                    new KeyValuePair<string, string>("hasLost", l) 
               };
 
             // Always catch network exceptions for async methods.
@@ -237,6 +209,8 @@ namespace _2e11
 
         public void ParseScores(string jsonArrayAsString)
         {
+            int position = 1;
+
             JArray jsonArray = JArray.Parse(jsonArrayAsString);
             JToken jsonArray_Item = jsonArray.First;
             while (jsonArray_Item != null)
@@ -245,7 +219,8 @@ namespace _2e11
                 string value = jsonArray_Item.Value<string>("value");
                 string time = jsonArray_Item.Value<string>("time");
 
-                string totalString = username + "\t" + value + "\t" + time + "\t";
+                string totalString = position.ToString() + ".  " +  username + "\t     " + value + "\t\t" + time;
+                position++;
 
                 ListBoxItem item = new ListBoxItem();
 

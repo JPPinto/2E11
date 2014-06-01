@@ -20,15 +20,15 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <!-- Title Panel -->
         <StackPanel Grid.Row="0" Margin="19,0,0,0">
             <TextBlock Text="2E11" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,-0.167,0"/>
             <TextBlock Text="High Scores" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
         </StackPanel>
         <ListBox x:Name="scores" HorizontalAlignment="Left" Height="452" Margin="10,48.833,0,0" Grid.Row="1" VerticalAlignment="Top" Width="380" Foreground="Black" Background="Black" FontFamily="Segoe WP Semibold"/>
-        <TextBlock HorizontalAlignment="Left" Margin="10,9.833,0,0" TextWrapping="Wrap" Text="Name&#x9;Score&#x9;Time To Complete" VerticalAlignment="Top" Height="34" Width="380" FontSize="20" FontFamily="Segoe UI Semibold" Grid.Row="1" FontStyle="Italic" FontWeight="Bold"/>
-        
+        <TextBlock HorizontalAlignment="Left" Margin="40,9.833,0,0" TextWrapping="Wrap" Text="Name&#x9;Score&#x9;Time To Complete" VerticalAlignment="Top" Height="34" Width="350" FontSize="20" FontFamily="Segoe UI Semibold" Grid.Row="1" FontStyle="Italic" FontWeight="Bold"/>
+
         <Button Content="Refresh" HorizontalAlignment="Left" Margin="281,0,0,0" VerticalAlignment="Top" Click="About_Button_Click" BorderThickness="0,2" Width="99"/>
 
         <!--TODO: Content should be placed within the following grid-->

@@ -25,11 +25,9 @@ namespace _2e11
     /// </summary>
     public sealed partial class LobbyPage : Page
     {
-        private int timeout;
         public LobbyPage()
         {
             this.InitializeComponent();
-            timeout = 30;
         }
 
         /// <summary>
