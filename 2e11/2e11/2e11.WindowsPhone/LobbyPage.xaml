@@ -10,15 +10,20 @@
 
     <Grid>
         <Image Source="Assets/cover.jpg" Margin="-206,208,206,165" Grid.RowSpan="2"/>
-        <Button Content="Find Player" HorizontalAlignment="Left" Margin="145,564,0,0" VerticalAlignment="Top" BorderThickness="0,2" FontFamily="Segoe WP Semibold" Click="Button_Click"/>
+        <Button Content="Find Player" HorizontalAlignment="Left" Margin="145,524,0,0" VerticalAlignment="Top" BorderThickness="0,2" FontFamily="Segoe WP Semibold" Click="Find_Button_Click"/>
+        <TextBox x:Name="userPlaceHolder" HorizontalAlignment="Left" Margin="85,208,0,0" TextWrapping="Wrap" Text="Nickname" VerticalAlignment="Top" Height="43" Width="235" TextChanged="TextBox_TextChanged"/>
+        <TextBlock HorizontalAlignment="Left" Margin="85,178,0,0" TextWrapping="Wrap" Text="Please write your nickname/alias:" VerticalAlignment="Top" Height="30" Width="250" FontSize="17"/>
+        <ProgressRing x:Name="progress" HorizontalAlignment="Left" Margin="159,295,0,0" VerticalAlignment="Top" Height="81" Width="82" Visibility="Collapsed"/>
+        <TextBlock x:Name="waiting_text_block" HorizontalAlignment="Left" Height="52" Margin="85,383,0,0" TextWrapping="Wrap" Text="Waiting for an invitation..." VerticalAlignment="Top" Width="235" FontSize="17" FontFamily="Segoe WP Semibold" TextAlignment="Center" Visibility="Collapsed"/>
+        <TextBlock x:Name="searching_text_block" HorizontalAlignment="Left" Height="52" Margin="85,383,0,0" TextWrapping="Wrap" Text="Searching for an opponent..." VerticalAlignment="Top" Width="235" FontSize="17" FontFamily="Segoe WP Semibold" TextAlignment="Center" Visibility="Collapsed"/>
         <!--Button Content="PlaySingle" HorizontalAlignment="Left" Margin="265,545,0,0" VerticalAlignment="Top"/-->
-        
+
     </Grid>
 
     <Page.BottomAppBar>
         <CommandBar ClosedDisplayMode="Minimal">
             <CommandBar.PrimaryCommands>
-                <AppBarButton x:Name="Back" Label="Back" Click="AppBarButton_Click"/>
+                <AppBarButton x:Name="Back" Label="Back" Icon="Back" Click="AppBarButton_Click"/>
             </CommandBar.PrimaryCommands>
         </CommandBar>
     </Page.BottomAppBar>

@@ -13,8 +13,10 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Threading;
-using Windows.Web.Http;
-using Windows.Web.Http.Filters;
+using System.Net.Http;
+using System.Net;
+using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -25,6 +27,11 @@ namespace _2e11
     /// </summary>
     public sealed partial class LobbyPage : Page
     {
+
+        private Boolean text_changed = false;
+        private String received_invit_name = "";
+        public readonly int NUM_OF_TRYS = 6;
+
         public LobbyPage()
         {
             this.InitializeComponent();
@@ -37,31 +44,45 @@ namespace _2e11
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            text_changed = false;
+            received_invit_name = "";
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e) 
+        private async void Find_Button_Click(object sender, RoutedEventArgs e)
         {
-            var uri = new Uri("http://nameless-meadow-9441.herokuapp.com/allScores");
-            var request = new HttpRequestMessage();
-            request.RequestUri = uri;
-            HttpClient httpClient = new HttpClient();
+            if (!text_changed) return;
 
-            // Always catch network exceptions for async methods.
-            try 
+            postPlayer(userPlaceHolder.Text, "no", "no", "");
+
+            return;
+            progress.IsActive = true;
+            progress.Visibility = Visibility.Visible;
+            waiting_text_block.Visibility = Visibility.Visible;
+            
+            for (int i = 0; i < NUM_OF_TRYS; i++)
             {
-                var result = await httpClient.GetStringAsync(uri);
+                await getConnectedPlayers(userPlaceHolder.Text, true, false);
+                if (received_invit_name != "")
+                    break;
             }
-            catch
+
+            if (received_invit_name != "")
             {
-                // Details in ex.Message and ex.HResult.       
+                //TODO: MANDAR O INVITE CALLBACK
+                
+                progress.Visibility = Visibility.Collapsed;
+                progress.IsActive = false;
+                waiting_text_block.Visibility = Visibility.Collapsed;
             }
-
-            // Once your app is done using the HttpClient object call dispose to 
-            // free up system resources (the underlying socket and memory used for the object)
-            httpClient.Dispose();
-
-
-            //CreateHttpClient(ref httpClient);
+            else
+            {
+                waiting_text_block.Visibility = Visibility.Collapsed;
+                searching_text_block.Visibility = Visibility.Visible;
+                //TODO: SEARCH PLAYERS
+                progress.Visibility = Visibility.Collapsed;
+                progress.IsActive = false;
+                searching_text_block.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
@@ -69,21 +90,113 @@ namespace _2e11
             Frame.Navigate(typeof(MainPage));
         }
 
-        internal static void CreateHttpClient(ref HttpClient httpClient)
+        private async Task getConnectedPlayers(String username, Boolean checkInvits, Boolean sendInvit)
         {
-            if (httpClient != null)
+            List<List<KeyValuePair<string, string>>> values;
+            var uri = new Uri(MainPage.URL + "players");
+            HttpRequestMessage requestMessage = new HttpRequestMessage();
+            requestMessage.RequestUri = uri;
+            var httpClient = new HttpClient(new HttpClientHandler());
+
+            HttpWebRequest request = HttpWebRequest.CreateHttp(uri);
+            if (request.Headers == null)
+                request.Headers = new WebHeaderCollection();
+            request.Headers[HttpRequestHeader.IfModifiedSince] = DateTime.UtcNow.ToString();
+
+            // Always catch network exceptions for async methods.
+            try
             {
-                httpClient.Dispose();
+                WebResponse response = await request.GetResponseAsync();
+
+                using (var reader = new StreamReader(response.GetResponseStream()))
+                {
+                    string result = reader.ReadToEnd(); // do something fun...
+                    values = parsePlayers(result);
+
+                    if (checkInvits)
+                        checkForInvits(values, username);
+
+                    //TODO CHECK IF USERNAME ALREADY EXISTS
+                }
+            }
+            catch
+            {
+                // Details in ex.Message and ex.HResult.       
+            }
+        }
+
+        private void checkForInvits(List<List<KeyValuePair<string, string>>> values, String username)
+        {
+            for (int i = 0; i < values.Capacity; i++)
+            {
+                if (values[i][0].Value == username)
+                {
+                    if (values[i][3].Value != "")
+                    {
+                        received_invit_name = values[i][3].Value;
+                    }
+                }
+            }
+        }
+
+        private List<List<KeyValuePair<string, string>>> parsePlayers(String jsonArrayAsString)
+        {
+            var values = new List<List<KeyValuePair<string, string>>>();
+
+            JArray jsonArray = JArray.Parse(jsonArrayAsString);
+            JToken jsonArray_Item = jsonArray.First;
+            while (jsonArray_Item != null)
+            {
+                string username = jsonArray_Item.Value<string>("username");
+                string hWon = jsonArray_Item.Value<string>("hasWon");
+                string hLost = jsonArray_Item.Value<string>("hasLost");
+                string pMe = jsonArray_Item.Value<string>("playAgainstMe");
+
+                values.Add(new List<KeyValuePair<string, string>>{
+                    new KeyValuePair<string, string>("username", username),
+                    new KeyValuePair<string, string>("hasWon", hWon),
+                    new KeyValuePair<string, string>("hasLost", hLost),
+                    new KeyValuePair<string, string>("playAgainstMe", pMe) 
+                });
+
+                //Be careful, you take the next from the current item, not from the JArray object.
+                jsonArray_Item = jsonArray_Item.Next;
+            }
+            return values;
+        }
+
+        private async void postPlayer(String user, String w, String l, String pMe)
+        {
+            var uri = new Uri(MainPage.URL + "players");
+            var httpClient = new HttpClient(new HttpClientHandler());
+
+            var values = new List<KeyValuePair<string, string>>{
+                    new KeyValuePair<string, string>("username", user),
+                    new KeyValuePair<string, string>("won", w),
+                    new KeyValuePair<string, string>("lost", l),
+                    new KeyValuePair<string, string>("playme", pMe) 
+              };
+
+            // Always catch network exceptions for async methods.
+            try
+            {
+                HttpResponseMessage response = await httpClient.PostAsync(uri, new FormUrlEncodedContent(values));
+                response.EnsureSuccessStatusCode();
+                var responseString = await response.Content.ReadAsStringAsync();
+
+                if (responseString.Equals("Added")) return;
+
+            }
+            catch
+            {
+                // Details in ex.Message and ex.HResult.       
             }
 
-            // Extend HttpClient by chaining filters together
-            // and then providing HttpClient with the configured filter pipeline.
-            var basefilter = new HttpBaseProtocolFilter();
+        }
 
-            // Adds a custom header to every request and response message.
-            var myfilter = new PlugInFilter(basefilter);
-            httpClient = new HttpClient(myfilter);
-
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            text_changed = true;
         }
     }
 }

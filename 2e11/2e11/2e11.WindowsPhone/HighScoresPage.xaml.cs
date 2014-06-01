@@ -147,66 +147,6 @@ namespace _2e11
             }
         }
 
-        private async void getConnectedPlayers()
-        {
-            /*var uri = new Uri(MainPage.URL + "players");
-            HttpRequestMessage requestMessage = new HttpRequestMessage();
-            requestMessage.RequestUri = uri;
-            var httpClient = new HttpClient(new HttpClientHandler());
-
-            HttpWebRequest request = HttpWebRequest.CreateHttp(uri);
-            if (request.Headers == null)
-                request.Headers = new WebHeaderCollection();
-            request.Headers[HttpRequestHeader.IfModifiedSince] = DateTime.UtcNow.ToString();
-
-            // Always catch network exceptions for async methods.
-            try
-            {
-                WebResponse response = await request.GetResponseAsync();
-
-                //response.EnsureSuccessStatusCode();
-                //var responseString = await response.Content.ReadAsStringAsync();
-
-                using (var reader = new StreamReader(response.GetResponseStream()))
-                {
-                    string result = reader.ReadToEnd(); // do something fun...
-                    ParseScores(result);
-                }
-            }
-            catch
-            {
-                // Details in ex.Message and ex.HResult.       
-            }*/
-        }
-
-        private async void postPlayer(String user, String w, String l)
-        {
-            var uri = new Uri(MainPage.URL + "addConnectPlayer");
-            var httpClient = new HttpClient(new HttpClientHandler());
-
-            var values = new List<KeyValuePair<string, string>>{
-                    new KeyValuePair<string, string>("username", user),
-                    new KeyValuePair<string, string>("hasWon", w),
-                    new KeyValuePair<string, string>("hasLost", l) 
-              };
-
-            // Always catch network exceptions for async methods.
-            try
-            {
-                HttpResponseMessage response = await httpClient.PostAsync(uri, new FormUrlEncodedContent(values));
-                response.EnsureSuccessStatusCode();
-                var responseString = await response.Content.ReadAsStringAsync();
-
-                if (responseString.Equals("Added")) return;
-
-            }
-            catch
-            {
-                // Details in ex.Message and ex.HResult.       
-            }
-
-        }
-
         public void ParseScores(string jsonArrayAsString)
         {
             int position = 1;
@@ -219,7 +159,7 @@ namespace _2e11
                 string value = jsonArray_Item.Value<string>("value");
                 string time = jsonArray_Item.Value<string>("time");
 
-                string totalString = position.ToString() + ".  " +  username + "\t     " + value + "\t\t" + time;
+                string totalString = position.ToString() + "." +  username + "\t     " + value + "\t\t" + time;
                 position++;
 
                 ListBoxItem item = new ListBoxItem();
