@@ -28,6 +28,7 @@ namespace _2e11
         private double old_Y;
         private bool animating;
         private BitmapImage[] tiles;
+        private Boolean tapped = false;
 
         public GamePage()
         {
@@ -55,6 +56,9 @@ namespace _2e11
             game.resetBoard();
             game.addStartTiles();
 
+            //Restart Timer
+            timer.Start();
+
             UpdateGrid();
             DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(dataTransferManager_DataRequested);
@@ -64,6 +68,14 @@ namespace _2e11
             // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            timer.Stop();
+            tMins = 0;
+            tSecs = 0;
+            base.OnNavigatedFrom(e);
         }
         private void dataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs e)
         {
@@ -245,10 +257,6 @@ namespace _2e11
             
         }
 
-        //public void OnManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
-        //{
-        //    var velocities = e.Velocities;
-        //}
         private void ExitGame(object sender, RoutedEventArgs e) {
             timer.Stop();
             Frame.Navigate(typeof(MainPage));
@@ -359,6 +367,8 @@ namespace _2e11
 
         private void Submit_Button_Click(object sender, RoutedEventArgs e)
         {
+            if (!tapped) return;
+
             string nickname = userTextHolder.Text;
             if (nickname.Length == 0) return;
             
@@ -371,6 +381,7 @@ namespace _2e11
             postHighScore(nickname, game.getScore().ToString(), time_to_complete);
 
             hideSubmitMenu();
+            userTextHolder.Text = "Enter a Nickname";
             showOverlay();
         }
 
@@ -407,6 +418,11 @@ namespace _2e11
             hideSubmitMenu();
             userTextHolder.Text = "Enter a Nickname";
             showOverlay();
+        }
+
+        private void userTextHolder_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            tapped = true;
         }
     }
 }
