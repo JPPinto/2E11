@@ -30,7 +30,7 @@ namespace _2e11
 
         private Boolean text_changed = false;
         private static String received_invit_name = "";
-        public readonly int NUM_OF_TRYS = 6;
+        public readonly int NUM_OF_TRYS = 10;
         public static List<KeyValuePair<string, string>> main_user;
 
         public LobbyPage()
@@ -49,40 +49,59 @@ namespace _2e11
             received_invit_name = "";
         }
 
-        private async void Find_Button_Click(object sender, RoutedEventArgs e)
+        private void Find_Button_Click(object sender, RoutedEventArgs e)
         {
             if (!text_changed) return;
 
+            text_changed = false;
+
+            received_invit_name = "";
+
             postPlayer(userPlaceHolder.Text, "no", "no", "");
 
-            //return;
             progress.IsActive = true;
             progress.Visibility = Visibility.Visible;
             waiting_text_block.Visibility = Visibility.Visible;
-            
+
+            //Wait for invitation
+            waitInvitation(userPlaceHolder.Text);
+           
+            if (received_invit_name == "")
+            {
+                waiting_text_block.Text = "Searching for an opponent";
+
+                //SEARCH PLAYERS
+                sendInvitations(userPlaceHolder.Text);
+            }
+
+            progress.Visibility = Visibility.Collapsed;
+            progress.IsActive = false;
+            waiting_text_block.Visibility = Visibility.Collapsed;
+
+            if (received_invit_name == "")
+            {
+                deletePlayer(main_user[0].Value);
+            }
+
+            text_changed = true;
+        }
+
+        private async void waitInvitation(String user) {
             for (int i = 0; i < NUM_OF_TRYS; i++)
             {
-                await getConnectedPlayers(userPlaceHolder.Text, true, false);
+                await getConnectedPlayers(user, true);
                 if (received_invit_name != "")
                     break;
             }
+        }
 
-            if (received_invit_name != "")
+        private async void sendInvitations(String user)
+        {
+            for (int i = 0; i < NUM_OF_TRYS; i++)
             {
-                //TODO: MANDAR O INVITE CALLBACK
-                
-                progress.Visibility = Visibility.Collapsed;
-                progress.IsActive = false;
-                waiting_text_block.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                waiting_text_block.Visibility = Visibility.Collapsed;
-                searching_text_block.Visibility = Visibility.Visible;
-                //TODO: SEARCH PLAYERS
-                progress.Visibility = Visibility.Collapsed;
-                progress.IsActive = false;
-                searching_text_block.Visibility = Visibility.Collapsed;
+                await getConnectedPlayers(user, false);
+                if (received_invit_name != "")
+                    break;
             }
         }
 
@@ -91,7 +110,7 @@ namespace _2e11
             Frame.Navigate(typeof(MainPage));
         }
 
-        private async Task getConnectedPlayers(String username, Boolean checkInvits, Boolean sendInvit)
+        private async Task getConnectedPlayers(String username, Boolean checkInvits)
         {
             List<List<KeyValuePair<string, string>>> values;
             var uri = new Uri(MainPage.URL + "players");
@@ -116,8 +135,7 @@ namespace _2e11
 
                     if (checkInvits)
                         checkForInvits(values, username);
-
-                    if (sendInvit)
+                    else
                         sendInvitation(values);
                     //TODO CHECK IF USERNAME ALREADY EXISTS
                 }
@@ -130,19 +148,27 @@ namespace _2e11
 
         private void sendInvitation(List<List<KeyValuePair<string, string>>> values)
         {
-            for (int i = 0; i < values.Capacity; i++)
+            try
             {
-                if (values[i][0].Value != main_user[0].Value)
+                for (int i = 0; i < values.Capacity; i++)
                 {
-                    if (values[i][3].Value == "")
+                    if (values[i][0].Value != main_user[0].Value)
                     {
-                        received_invit_name = values[i][0].Value;
+                        if (values[i][3].Value == "")
+                        {
+                            received_invit_name = values[i][0].Value;
+                            defineOpponent(main_user[0].Value, received_invit_name);
+                            break;
+                        }
                     }
                 }
+                defineOpponent(received_invit_name, main_user[0].Value);
+
             }
-
-            //CHANGE THE INVITED USERS ATTRIBUIT "playAgainstMe"
-
+            catch
+            {
+                int x = 0;
+            }
         }
 
         private void checkForInvits(List<List<KeyValuePair<string, string>>> values, String username)
@@ -207,6 +233,59 @@ namespace _2e11
                 var responseString = await response.Content.ReadAsStringAsync();
 
                 if (responseString.Equals("Added")) return;
+
+            }
+            catch
+            {
+                // Details in ex.Message and ex.HResult.       
+            }
+
+        }
+
+        private async void defineOpponent(String user, String pMe)
+        {
+            var uri = new Uri(MainPage.URL + "connect");
+            var httpClient = new HttpClient(new HttpClientHandler());
+
+            var values = new List<KeyValuePair<string, string>>{
+                    new KeyValuePair<string, string>("username", user),
+                    new KeyValuePair<string, string>("connectedUser", pMe) 
+              };
+
+            // Always catch network exceptions for async methods.
+            try
+            {
+                HttpResponseMessage response = await httpClient.PostAsync(uri, new FormUrlEncodedContent(values));
+                response.EnsureSuccessStatusCode();
+                var responseString = await response.Content.ReadAsStringAsync();
+
+                if (responseString.Equals("Value Changed")) return;
+
+            }
+            catch
+            {
+                // Details in ex.Message and ex.HResult.       
+            }
+
+        }
+
+        private async void deletePlayer(String user)
+        {
+            var uri = new Uri(MainPage.URL + "connect");
+            var httpClient = new HttpClient(new HttpClientHandler());
+
+            var values = new List<KeyValuePair<string, string>>{
+                    new KeyValuePair<string, string>("username", user)
+              };
+
+            // Always catch network exceptions for async methods.
+            try
+            {
+                HttpResponseMessage response = await httpClient.PostAsync(uri, new FormUrlEncodedContent(values));
+                response.EnsureSuccessStatusCode();
+                var responseString = await response.Content.ReadAsStringAsync();
+
+                if (responseString.Equals("Value Changed")) return;
 
             }
             catch

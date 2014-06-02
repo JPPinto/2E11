@@ -15,7 +15,6 @@
         <TextBlock HorizontalAlignment="Left" Margin="85,178,0,0" TextWrapping="Wrap" Text="Please write your nickname/alias:" VerticalAlignment="Top" Height="30" Width="250" FontSize="17"/>
         <ProgressRing x:Name="progress" HorizontalAlignment="Left" Margin="159,295,0,0" VerticalAlignment="Top" Height="81" Width="82" Visibility="Collapsed"/>
         <TextBlock x:Name="waiting_text_block" HorizontalAlignment="Left" Height="52" Margin="85,383,0,0" TextWrapping="Wrap" Text="Waiting for an invitation..." VerticalAlignment="Top" Width="235" FontSize="17" FontFamily="Segoe WP Semibold" TextAlignment="Center" Visibility="Collapsed"/>
-        <TextBlock x:Name="searching_text_block" HorizontalAlignment="Left" Height="52" Margin="85,383,0,0" TextWrapping="Wrap" Text="Searching for an opponent..." VerticalAlignment="Top" Width="235" FontSize="17" FontFamily="Segoe WP Semibold" TextAlignment="Center" Visibility="Collapsed"/>
         <!--Button Content="PlaySingle" HorizontalAlignment="Left" Margin="265,545,0,0" VerticalAlignment="Top"/-->
 
     </Grid>
