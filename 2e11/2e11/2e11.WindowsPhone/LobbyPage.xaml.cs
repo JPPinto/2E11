@@ -29,8 +29,9 @@ namespace _2e11
     {
 
         private Boolean text_changed = false;
-        private String received_invit_name = "";
+        private static String received_invit_name = "";
         public readonly int NUM_OF_TRYS = 6;
+        public static List<KeyValuePair<string, string>> main_user;
 
         public LobbyPage()
         {
@@ -54,7 +55,7 @@ namespace _2e11
 
             postPlayer(userPlaceHolder.Text, "no", "no", "");
 
-            return;
+            //return;
             progress.IsActive = true;
             progress.Visibility = Visibility.Visible;
             waiting_text_block.Visibility = Visibility.Visible;
@@ -116,6 +117,8 @@ namespace _2e11
                     if (checkInvits)
                         checkForInvits(values, username);
 
+                    if (sendInvit)
+                        sendInvitation(values);
                     //TODO CHECK IF USERNAME ALREADY EXISTS
                 }
             }
@@ -123,6 +126,23 @@ namespace _2e11
             {
                 // Details in ex.Message and ex.HResult.       
             }
+        }
+
+        private void sendInvitation(List<List<KeyValuePair<string, string>>> values)
+        {
+            for (int i = 0; i < values.Capacity; i++)
+            {
+                if (values[i][0].Value != main_user[0].Value)
+                {
+                    if (values[i][3].Value == "")
+                    {
+                        received_invit_name = values[i][0].Value;
+                    }
+                }
+            }
+
+            //CHANGE THE INVITED USERS ATTRIBUIT "playAgainstMe"
+
         }
 
         private void checkForInvits(List<List<KeyValuePair<string, string>>> values, String username)
@@ -176,6 +196,8 @@ namespace _2e11
                     new KeyValuePair<string, string>("lost", l),
                     new KeyValuePair<string, string>("playme", pMe) 
               };
+
+            main_user = values; //Stored Current user's data
 
             // Always catch network exceptions for async methods.
             try
