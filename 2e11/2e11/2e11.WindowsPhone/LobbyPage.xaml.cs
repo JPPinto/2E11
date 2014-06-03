@@ -29,7 +29,7 @@ namespace _2e11
     {
 
         private Boolean text_changed = false;
-        private static String received_invit_name = "";
+        public static String received_invit_name = "";
         public readonly int NUM_OF_TRYS = 10;
         public static List<KeyValuePair<string, string>> main_user;
         private Boolean cancel_search;
@@ -65,8 +65,6 @@ namespace _2e11
             postPlayer(userPlaceHolder.Text, "no", "no", "");
             
             //Wait for invitation
-            //waitInvitation(userPlaceHolder.Text);
-
             for (int i = 0; i < NUM_OF_TRYS; i++)
             {
                 await getConnectedPlayers(userPlaceHolder.Text, true);
@@ -79,8 +77,6 @@ namespace _2e11
                 waiting_text_block.Text = "Searching for an opponent";
 
                 //SEARCH PLAYERS
-                //sendInvitations(userPlaceHolder.Text);
-
                 while (true)
                 {
                     cancel_button.Visibility = Visibility.Visible;
@@ -107,31 +103,11 @@ namespace _2e11
 
             text_changed = true;
             waiting_text_block.Text = "Waiting for an invitation";
-        }
 
-        private async void waitInvitation(String user) {
-            for (int i = 0; i < NUM_OF_TRYS; i++)
+            if (received_invit_name != "")
             {
-                await getConnectedPlayers(user, true);
-                if (received_invit_name != "")
-                    break;
-            }
-        }
-
-        private async void sendInvitations(String user)
-        {
-            while(true)
-            {
-                cancel_button.Visibility = Visibility.Visible;
-
-                await getConnectedPlayers(user, false);
-
-                if (cancel_search || received_invit_name != "")
-                {
-                    cancel_button.Visibility = Visibility.Collapsed;
-                    cancel_search = false;
-                    break;
-                }
+                GamePage.multiplayer = true;
+                Frame.Navigate(typeof(GamePage));
             }
         }
 
@@ -192,6 +168,7 @@ namespace _2e11
                         }
                     }
                 }
+
                 if(received_invit_name != "")
                     defineOpponent(received_invit_name, main_user[0].Value);
 
@@ -300,7 +277,7 @@ namespace _2e11
 
         }
 
-        private async void deletePlayer(String user)
+        public static async void deletePlayer(String user)
         {
             var uri = new Uri(MainPage.URL + "remove");
             var httpClient = new HttpClient(new HttpClientHandler());

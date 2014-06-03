@@ -29,6 +29,8 @@ namespace _2e11
         private bool animating;
         private BitmapImage[] tiles;
         private Boolean tapped = false;
+        public static Boolean multiplayer = false;
+        private static readonly string default_text = "Playing Against:\n";
 
         public GamePage()
         {
@@ -60,6 +62,9 @@ namespace _2e11
             //Restart Timer
             timer.Start();
 
+            player_against_text_block.Visibility = Visibility.Visible;
+            player_against_text_block.Text = default_text + LobbyPage.received_invit_name;
+
             UpdateGrid();
             DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(dataTransferManager_DataRequested);
@@ -76,6 +81,13 @@ namespace _2e11
             timer.Stop();
             tMins = 0;
             tSecs = 0;
+
+            if (multiplayer) 
+                LobbyPage.deletePlayer(LobbyPage.main_user[0].Value);
+
+            player_against_text_block.Visibility = Visibility.Collapsed;
+            multiplayer = false;
+            player_against_text_block.Text = default_text;
             base.OnNavigatedFrom(e);
         }
         private void dataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs e)
@@ -139,6 +151,7 @@ namespace _2e11
 
             if (game.isWon)
             {
+                //
                 timer.Stop();
                 showSubmitMenu("You Win!");
             }
@@ -298,6 +311,8 @@ namespace _2e11
             else { 
                 tSecs++;
             }
+
+            //CHECK IF OPPONENT HAS LOST OR WON
 
             if (tSecs > 9) {
                 timer_value.Text = tMins.ToString() + ":" + tSecs.ToString();
