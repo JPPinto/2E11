@@ -31,6 +31,7 @@ namespace _2e11
         private Boolean tapped = false;
         public static Boolean multiplayer = false;
         private static readonly string default_text = "Playing Against:\n";
+        public static List<KeyValuePair<string, string>> opponent;
 
         public GamePage()
         {
@@ -62,13 +63,16 @@ namespace _2e11
             //Restart Timer
             timer.Start();
 
-            player_against_text_block.Visibility = Visibility.Visible;
-            player_against_text_block.Text = default_text + LobbyPage.received_invit_name;
+            if (multiplayer)
+            {
+                player_against_text_block.Text = default_text + LobbyPage.received_invit_name;
+                player_against_text_block.Visibility = Visibility.Visible;
+            }
 
             UpdateGrid();
             DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(dataTransferManager_DataRequested);
-    
+
             // TODO: If your application contains multiple pages, ensure that you are
             // handling the hardware Back button by registering for the
             // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
@@ -82,8 +86,10 @@ namespace _2e11
             tMins = 0;
             tSecs = 0;
 
-            if (multiplayer) 
+            if (multiplayer)
+            {
                 LobbyPage.deletePlayer(LobbyPage.main_user[0].Value);
+            }
 
             player_against_text_block.Visibility = Visibility.Collapsed;
             multiplayer = false;
@@ -95,7 +101,7 @@ namespace _2e11
             DataPackage requestData = e.Request.Data;
             requestData.Properties.Title = "My HighScore In 2E11";
             requestData.Properties.Description = "My HighScore In 2E11";
-            requestData.SetText("I got " + game.score/2 + " points in 2E11! How much can you get?");
+            requestData.SetText("I got " + game.score / 2 + " points in 2E11! How much can you get?");
         }
 
         private void Image_Left_Tapped(object sender, TappedRoutedEventArgs e)
@@ -142,16 +148,18 @@ namespace _2e11
                 }
             }
 
-            this.score_value.Text = (game.getScore()/2).ToString();
+            this.score_value.Text = (game.getScore() / 2).ToString();
 
-            if (game.isLost) {
+            if (game.isLost)
+            {
+                LobbyPage.playerLost(LobbyPage.main_user[0].Value, true);
                 timer.Stop();
                 showSubmitMenu("You Lose...");
             }
 
             if (game.isWon)
             {
-                //
+                LobbyPage.playerWon(LobbyPage.main_user[0].Value, true);
                 timer.Stop();
                 showSubmitMenu("You Win!");
             }
@@ -160,7 +168,7 @@ namespace _2e11
         private void addPiece(ushort value, int x_pos, int y_pos)
         {
             Image temp_img = new Image();
-            temp_img.Source = tiles[value -1];
+            temp_img.Source = tiles[value - 1];
 
             Grid.SetColumn(temp_img, x_pos);
             Grid.SetRow(temp_img, y_pos);
@@ -169,11 +177,13 @@ namespace _2e11
 
         }
 
-        private void preloadImages() {
+        private void preloadImages()
+        {
             tiles = new BitmapImage[11];
 
-            for (int i = 0; i < 11; i++) {
-                int value = (int) Math.Pow(2,i+1);
+            for (int i = 0; i < 11; i++)
+            {
+                int value = (int)Math.Pow(2, i + 1);
 
                 var uri = new Uri("ms-appx:/Assets/" + value.ToString() + ".png", UriKind.RelativeOrAbsolute);
                 tiles[i] = new BitmapImage();
@@ -263,24 +273,29 @@ namespace _2e11
             Frame.Navigate(typeof(MainPage));
         }
 
-        private void ShareFB_Buttom_Click(object sender, RoutedEventArgs e) {
+        private void ShareFB_Buttom_Click(object sender, RoutedEventArgs e)
+        {
             DataTransferManager.ShowShareUI();
         }
 
-        private void ShareTW_Buttom_Click(object sender, RoutedEventArgs e) { 
-            
+        private void ShareTW_Buttom_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
-        private void ExitGame(object sender, RoutedEventArgs e) {
+        private void ExitGame(object sender, RoutedEventArgs e)
+        {
             timer.Stop();
             Frame.Navigate(typeof(MainPage));
         }
 
-        private void ResetGame(object sender, RoutedEventArgs e) {
+        private void ResetGame(object sender, RoutedEventArgs e)
+        {
             ResetGame();
         }
 
-        private void ResetGame() {
+        private void ResetGame()
+        {
             timer.Stop();
             game.resetBoard();
             game.addStartTiles();
@@ -288,12 +303,15 @@ namespace _2e11
             tMins = 0;
             tSecs = 0;
 
+
+
             timer.Start();
 
             UpdateGrid();
         }
 
-        private void initializeTimer() {
+        private void initializeTimer()
+        {
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 1);
             // Crappy documentation strikes again
@@ -303,24 +321,64 @@ namespace _2e11
             tSecs = 0;
         }
 
-        private void timerFired(object sender, object e) {
-            if (tSecs == 59) { 
+        private void timerFired(object sender, object e)
+        {
+            if (tSecs == 59)
+            {
                 tSecs = 0;
                 tMins++;
             }
-            else { 
+            else
+            {
                 tSecs++;
             }
 
             //CHECK IF OPPONENT HAS LOST OR WON
+            if (tSecs % 2 == 0 && multiplayer)
+            {
+                LobbyPage.getPlayer(LobbyPage.received_invit_name);
 
-            if (tSecs > 9) {
+                if (opponent == null)
+                {
+                    timer.Stop();
+                    showSubmitMenu("You Win!");
+                }
+                else
+                {
+                    for (int i = 0; i < opponent.Count; i++)
+                    {
+                        if (opponent[i].Key == "hasLost")
+                        {
+                            if (opponent[i].Value == "yes")
+                            {
+                                timer.Stop();
+                                showSubmitMenu("You Win!");
+                                break;
+                            }
+                        }
+
+                        if (opponent[i].Key == "hasWon")
+                        {
+                            if (opponent[i].Value == "yes")
+                            {
+                                timer.Stop();
+                                showSubmitMenu("You Lost...");
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (tSecs > 9)
+            {
                 timer_value.Text = tMins.ToString() + ":" + tSecs.ToString();
             }
-            else {
+            else
+            {
                 timer_value.Text = tMins.ToString() + ":0" + tSecs.ToString();
             }
-            
+
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
@@ -328,21 +386,29 @@ namespace _2e11
             DataTransferManager.ShowShareUI();
         }
 
-        private void showOverlay() {
+        private void showOverlay()
+        {
 
             this.restart_buttom.Visibility = Visibility.Visible;
             this.lose_buttom.Visibility = Visibility.Visible;
 
             this.lose_panel.Visibility = Visibility.Visible;
-            
+
             this.lose_text_block.Visibility = Visibility.Visible;
             this.lose_share_text_block.Visibility = Visibility.Visible;
-            
+
             this.sharefb_buttom.Visibility = Visibility.Visible;
             this.sharetw_buttom.Visibility = Visibility.Visible;
         }
 
-        private void hideOverlay() {
+        private void hideOverlay()
+        {
+            if (multiplayer)
+            {
+                player_against_text_block.Visibility = Visibility.Collapsed;
+                player_against_text_block.Text = default_text;
+            }
+
             this.restart_buttom.Visibility = Visibility.Collapsed;
             this.lose_buttom.Visibility = Visibility.Collapsed;
 
@@ -355,7 +421,8 @@ namespace _2e11
             this.sharetw_buttom.Visibility = Visibility.Collapsed;
         }
 
-        private void showSubmitMenu(string gameState){
+        private void showSubmitMenu(string gameState)
+        {
 
             lose_text_block.Text = gameState;
 
@@ -383,13 +450,18 @@ namespace _2e11
 
         private void Submit_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (!tapped) return;
+            if (!tapped && !multiplayer) return;
+
+            if (multiplayer)
+            {
+                userTextHolder.Text = LobbyPage.received_invit_name;
+            }
 
             string nickname = userTextHolder.Text;
             if (nickname.Length == 0) return;
-            
-            if(nickname.Length > 6)
-                nickname = nickname.Substring(0,6);
+
+            if (nickname.Length > 6)
+                nickname = nickname.Substring(0, 6);
 
             string time_to_complete = ((tMins * 60) + tSecs).ToString();
             string temp_score = (game.getScore() / 2).ToString();
@@ -397,7 +469,7 @@ namespace _2e11
             postHighScore(nickname, game.getScore().ToString(), time_to_complete);
 
             hideSubmitMenu();
-            userTextHolder.Text = "Enter a Nickname";
+            userTextHolder.Text = "Nickname";
             showOverlay();
         }
 

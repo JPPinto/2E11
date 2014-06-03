@@ -12,6 +12,7 @@ namespace _2e11 {
         public bool isWon;
         public bool isLost;
         public ulong score;
+        public static int limitValue = 2048; 
         ushort[,] board;
         Random rnd = new Random();
 
@@ -75,6 +76,7 @@ namespace _2e11 {
             if (Update(this.board, Direction.Left, out temp)) {
                 PutNewValue();
             }
+            if ((int)temp == limitValue * 2) isWon = true;
             score+=temp;
         }
         public void moveRight() {
@@ -85,6 +87,7 @@ namespace _2e11 {
             if (Update(this.board, Direction.Right, out temp)) {
                 PutNewValue();
             }
+            if ((int)temp == limitValue * 2) isWon = true;
             score += temp;
         }
         public void moveUp() {
@@ -95,6 +98,7 @@ namespace _2e11 {
             if (Update(this.board, Direction.Up, out temp)) {
                 PutNewValue();
             }
+            if ((int)temp == limitValue * 2) isWon = true;
             score += temp;
         }
         public void moveDown() {
@@ -105,6 +109,7 @@ namespace _2e11 {
             if(Update(this.board, Direction.Down, out temp)){
                 PutNewValue();
             }
+            if ((int)temp == limitValue * 2) isWon = true;
             score += temp;
         }
         private static bool Update(ushort[,] boardIn, Direction direction, out ulong scoreIn) {

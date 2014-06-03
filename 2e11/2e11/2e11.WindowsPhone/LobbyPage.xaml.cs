@@ -303,6 +303,111 @@ namespace _2e11
 
         }
 
+        public static async void playerWon(String user, Boolean won)
+        {
+            var uri = new Uri(MainPage.URL + "won");
+            var httpClient = new HttpClient(new HttpClientHandler());
+
+            var values = new List<KeyValuePair<string, string>>{
+                    new KeyValuePair<string, string>("username", user),
+                    new KeyValuePair<string, string>("won", won ? "yes" : "no")
+            };
+
+            // Always catch network exceptions for async methods.
+            try
+            {
+                HttpResponseMessage response = await httpClient.PostAsync(uri, new FormUrlEncodedContent(values));
+                response.EnsureSuccessStatusCode();
+                var responseString = await response.Content.ReadAsStringAsync();
+
+                if (responseString.Equals("Value Changed")) return;
+
+            }
+            catch
+            {
+                // Details in ex.Message and ex.HResult.       
+            }
+
+        }
+
+        public static async void playerLost(String user, Boolean lost)
+        {
+            var uri = new Uri(MainPage.URL + "lost");
+            var httpClient = new HttpClient(new HttpClientHandler());
+
+            var values = new List<KeyValuePair<string, string>>{
+                    new KeyValuePair<string, string>("username", user),
+                    new KeyValuePair<string, string>("lost", lost ? "yes" : "no")
+            };
+
+            // Always catch network exceptions for async methods.
+            try
+            {
+                HttpResponseMessage response = await httpClient.PostAsync(uri, new FormUrlEncodedContent(values));
+                response.EnsureSuccessStatusCode();
+                var responseString = await response.Content.ReadAsStringAsync();
+
+                if (responseString.Equals("Value Changed")) return;
+
+            }
+            catch
+            {
+                // Details in ex.Message and ex.HResult.       
+            }
+        }
+
+        public static async void getPlayer(String user)
+        {
+            var uri = new Uri(MainPage.URL + "onePlayer");
+            var httpClient = new HttpClient(new HttpClientHandler());
+
+            var values = new List<KeyValuePair<string, string>>{
+                    new KeyValuePair<string, string>("username", user)
+              };
+
+            // Always catch network exceptions for async methods.
+            try
+            {
+                HttpResponseMessage response = await httpClient.PostAsync(uri, new FormUrlEncodedContent(values));
+                response.EnsureSuccessStatusCode();
+                var responseString = await response.Content.ReadAsStringAsync();
+
+                GamePage.opponent = parseOnePlayer(responseString);
+
+            }
+            catch
+            {
+                // Details in ex.Message and ex.HResult.       
+            }
+
+        }
+
+        private static List<KeyValuePair<string, string>> parseOnePlayer(String jsonArrayAsString)
+        {
+            var values = new List<KeyValuePair<string, string>>();
+
+            JArray jsonArray = JArray.Parse(jsonArrayAsString);
+            JToken jsonArray_Item = jsonArray.First;
+            while (jsonArray_Item != null)
+            {
+                string username = jsonArray_Item.Value<string>("username");
+                string hWon = jsonArray_Item.Value<string>("hasWon");
+                string hLost = jsonArray_Item.Value<string>("hasLost");
+                string pMe = jsonArray_Item.Value<string>("playAgainstMe");
+
+                values = new List<KeyValuePair<string, string>>{
+                    new KeyValuePair<string, string>("username", username),
+                    new KeyValuePair<string, string>("hasWon", hWon),
+                    new KeyValuePair<string, string>("hasLost", hLost),
+                    new KeyValuePair<string, string>("playAgainstMe", pMe) 
+                };
+
+                //Be careful, you take the next from the current item, not from the JArray object.
+                jsonArray_Item = jsonArray_Item.Next;
+            }
+            return values;
+        }
+
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             text_changed = true;
