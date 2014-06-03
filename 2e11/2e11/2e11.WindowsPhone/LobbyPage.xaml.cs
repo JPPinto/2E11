@@ -32,10 +32,12 @@ namespace _2e11
         private static String received_invit_name = "";
         public readonly int NUM_OF_TRYS = 10;
         public static List<KeyValuePair<string, string>> main_user;
+        private Boolean cancel_search;
 
         public LobbyPage()
         {
             this.InitializeComponent();
+            cancel_search = false;
         }
 
         /// <summary>
@@ -49,29 +51,49 @@ namespace _2e11
             received_invit_name = "";
         }
 
-        private void Find_Button_Click(object sender, RoutedEventArgs e)
+        private async void Find_Button_Click(object sender, RoutedEventArgs e)
         {
             if (!text_changed) return;
 
             text_changed = false;
-
             received_invit_name = "";
-
-            postPlayer(userPlaceHolder.Text, "no", "no", "");
 
             progress.IsActive = true;
             progress.Visibility = Visibility.Visible;
             waiting_text_block.Visibility = Visibility.Visible;
 
+            postPlayer(userPlaceHolder.Text, "no", "no", "");
+            
             //Wait for invitation
-            waitInvitation(userPlaceHolder.Text);
-           
+            //waitInvitation(userPlaceHolder.Text);
+
+            for (int i = 0; i < NUM_OF_TRYS; i++)
+            {
+                await getConnectedPlayers(userPlaceHolder.Text, true);
+                if (received_invit_name != "")
+                    break;
+            }
+
             if (received_invit_name == "")
             {
                 waiting_text_block.Text = "Searching for an opponent";
 
                 //SEARCH PLAYERS
-                sendInvitations(userPlaceHolder.Text);
+                //sendInvitations(userPlaceHolder.Text);
+
+                while (true)
+                {
+                    cancel_button.Visibility = Visibility.Visible;
+
+                    await getConnectedPlayers(userPlaceHolder.Text, false);
+
+                    if (cancel_search || received_invit_name != "")
+                    {
+                        cancel_button.Visibility = Visibility.Collapsed;
+                        cancel_search = false;
+                        break;
+                    }
+                }
             }
 
             progress.Visibility = Visibility.Collapsed;
@@ -84,6 +106,7 @@ namespace _2e11
             }
 
             text_changed = true;
+            waiting_text_block.Text = "Waiting for an invitation";
         }
 
         private async void waitInvitation(String user) {
@@ -97,11 +120,18 @@ namespace _2e11
 
         private async void sendInvitations(String user)
         {
-            for (int i = 0; i < NUM_OF_TRYS; i++)
+            while(true)
             {
+                cancel_button.Visibility = Visibility.Visible;
+
                 await getConnectedPlayers(user, false);
-                if (received_invit_name != "")
+
+                if (cancel_search || received_invit_name != "")
+                {
+                    cancel_button.Visibility = Visibility.Collapsed;
+                    cancel_search = false;
                     break;
+                }
             }
         }
 
@@ -150,7 +180,7 @@ namespace _2e11
         {
             try
             {
-                for (int i = 0; i < values.Capacity; i++)
+                for (int i = 0; i < values.Count; i++)
                 {
                     if (values[i][0].Value != main_user[0].Value)
                     {
@@ -162,12 +192,13 @@ namespace _2e11
                         }
                     }
                 }
-                defineOpponent(received_invit_name, main_user[0].Value);
+                if(received_invit_name != "")
+                    defineOpponent(received_invit_name, main_user[0].Value);
 
             }
             catch
             {
-                int x = 0;
+
             }
         }
 
@@ -271,7 +302,7 @@ namespace _2e11
 
         private async void deletePlayer(String user)
         {
-            var uri = new Uri(MainPage.URL + "connect");
+            var uri = new Uri(MainPage.URL + "remove");
             var httpClient = new HttpClient(new HttpClientHandler());
 
             var values = new List<KeyValuePair<string, string>>{
@@ -298,6 +329,11 @@ namespace _2e11
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             text_changed = true;
+        }
+
+        private void cancel_button_Click(object sender, RoutedEventArgs e)
+        {
+            cancel_search = true;
         }
     }
 }
