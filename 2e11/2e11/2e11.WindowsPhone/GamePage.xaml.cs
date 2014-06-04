@@ -152,14 +152,16 @@ namespace _2e11
 
             if (game.isLost)
             {
-                LobbyPage.playerLost(LobbyPage.main_user[0].Value, true);
+                if (multiplayer)
+                    LobbyPage.playerLost(LobbyPage.main_user[0].Value, true);
                 timer.Stop();
                 showSubmitMenu("You Lose...");
             }
 
             if (game.isWon)
             {
-                LobbyPage.playerWon(LobbyPage.main_user[0].Value, true);
+                if (multiplayer)
+                    LobbyPage.playerWon(LobbyPage.main_user[0].Value, true);
                 timer.Stop();
                 showSubmitMenu("You Win!");
             }
