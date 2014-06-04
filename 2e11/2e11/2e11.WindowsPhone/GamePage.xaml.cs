@@ -89,6 +89,7 @@ namespace _2e11
             if (multiplayer)
             {
                 LobbyPage.deletePlayer(LobbyPage.main_user[0].Value);
+                showSubmitMenu("You lost...");
             }
 
             player_against_text_block.Visibility = Visibility.Collapsed;
@@ -155,6 +156,7 @@ namespace _2e11
                 if (multiplayer)
                     LobbyPage.playerLost(LobbyPage.main_user[0].Value, true);
                 timer.Stop();
+                LobbyPage.received_invit_name = "";
                 showSubmitMenu("You Lose...");
             }
 
@@ -163,6 +165,7 @@ namespace _2e11
                 if (multiplayer)
                     LobbyPage.playerWon(LobbyPage.main_user[0].Value, true);
                 timer.Stop();
+                LobbyPage.received_invit_name = "";
                 showSubmitMenu("You Win!");
             }
         }
@@ -305,8 +308,6 @@ namespace _2e11
             tMins = 0;
             tSecs = 0;
 
-
-
             timer.Start();
 
             UpdateGrid();
@@ -344,6 +345,8 @@ namespace _2e11
                 {
                     timer.Stop();
                     showSubmitMenu("You Win!");
+                    LobbyPage.deletePlayer(LobbyPage.main_user[0].Value);
+                    LobbyPage.received_invit_name = "";
                 }
                 else
                 {
@@ -355,6 +358,9 @@ namespace _2e11
                             {
                                 timer.Stop();
                                 showSubmitMenu("You Win!");
+                                LobbyPage.deletePlayer(LobbyPage.main_user[0].Value);
+                                LobbyPage.deletePlayer(LobbyPage.received_invit_name);
+                                LobbyPage.received_invit_name = "";
                                 break;
                             }
                         }
@@ -365,6 +371,9 @@ namespace _2e11
                             {
                                 timer.Stop();
                                 showSubmitMenu("You Lost...");
+                                LobbyPage.deletePlayer(LobbyPage.main_user[0].Value);
+                                LobbyPage.deletePlayer(LobbyPage.received_invit_name);
+                                LobbyPage.received_invit_name = "";
                                 break;
                             }
                         }
@@ -506,7 +515,7 @@ namespace _2e11
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
             hideSubmitMenu();
-            userTextHolder.Text = "Enter a Nickname";
+            userTextHolder.Text = "Nickname";
             showOverlay();
         }
 

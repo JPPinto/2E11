@@ -51,6 +51,12 @@ namespace _2e11
             received_invit_name = "";
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            text_changed = false;
+            
+        }
+
         private async void Find_Button_Click(object sender, RoutedEventArgs e)
         {
             if (!text_changed) return;
