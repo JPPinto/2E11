@@ -89,6 +89,7 @@ namespace _2e11
             if (multiplayer)
             {
                 LobbyPage.deletePlayer(LobbyPage.main_user[0].Value);
+                timer.Stop();
                 showSubmitMenu("You lost...");
             }
 
@@ -97,6 +98,7 @@ namespace _2e11
             player_against_text_block.Text = default_text;
             base.OnNavigatedFrom(e);
         }
+
         private void dataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs e)
         {
             DataPackage requestData = e.Request.Data;
@@ -155,6 +157,7 @@ namespace _2e11
             {
                 if (multiplayer)
                     LobbyPage.playerLost(LobbyPage.main_user[0].Value, true);
+
                 timer.Stop();
                 LobbyPage.received_invit_name = "";
                 showSubmitMenu("You Lose...");
@@ -343,10 +346,10 @@ namespace _2e11
 
                 if (opponent == null)
                 {
-                    timer.Stop();
-                    showSubmitMenu("You Win!");
+                    /*timer.Stop();
                     LobbyPage.deletePlayer(LobbyPage.main_user[0].Value);
                     LobbyPage.received_invit_name = "";
+                    showSubmitMenu("You Win!");*/
                 }
                 else
                 {
@@ -357,10 +360,10 @@ namespace _2e11
                             if (opponent[i].Value == "yes")
                             {
                                 timer.Stop();
-                                showSubmitMenu("You Win!");
                                 LobbyPage.deletePlayer(LobbyPage.main_user[0].Value);
                                 LobbyPage.deletePlayer(LobbyPage.received_invit_name);
                                 LobbyPage.received_invit_name = "";
+                                showSubmitMenu("You Win!");
                                 break;
                             }
                         }
@@ -369,11 +372,11 @@ namespace _2e11
                         {
                             if (opponent[i].Value == "yes")
                             {
-                                timer.Stop();
-                                showSubmitMenu("You Lost...");
+                                timer.Stop();                            
                                 LobbyPage.deletePlayer(LobbyPage.main_user[0].Value);
                                 LobbyPage.deletePlayer(LobbyPage.received_invit_name);
                                 LobbyPage.received_invit_name = "";
+                                showSubmitMenu("You Lost...");
                                 break;
                             }
                         }

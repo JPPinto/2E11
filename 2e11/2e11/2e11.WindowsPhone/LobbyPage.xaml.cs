@@ -383,7 +383,7 @@ namespace _2e11
             }
             catch
             {
-                // Details in ex.Message and ex.HResult.       
+                int x = 0;  // Details in ex.Message and ex.HResult.       
             }
 
         }
