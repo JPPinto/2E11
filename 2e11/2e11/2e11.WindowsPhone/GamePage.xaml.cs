@@ -60,6 +60,9 @@ namespace _2e11
             game.resetBoard();
             game.addStartTiles();
 
+            hideSubmitMenu();
+            hideOverlay();
+
             //Restart Timer
             timer.Start();
 
@@ -159,7 +162,6 @@ namespace _2e11
                     LobbyPage.playerLost(LobbyPage.main_user[0].Value, true);
 
                 timer.Stop();
-                LobbyPage.received_invit_name = "";
                 showSubmitMenu("You Lose...");
             }
 
@@ -168,7 +170,6 @@ namespace _2e11
                 if (multiplayer)
                     LobbyPage.playerWon(LobbyPage.main_user[0].Value, true);
                 timer.Stop();
-                LobbyPage.received_invit_name = "";
                 showSubmitMenu("You Win!");
             }
         }
@@ -294,6 +295,8 @@ namespace _2e11
         private void ExitGame(object sender, RoutedEventArgs e)
         {
             timer.Stop();
+            hideSubmitMenu();
+            hideOverlay();
             Frame.Navigate(typeof(MainPage));
         }
 
@@ -362,7 +365,6 @@ namespace _2e11
                                 timer.Stop();
                                 LobbyPage.deletePlayer(LobbyPage.main_user[0].Value);
                                 LobbyPage.deletePlayer(LobbyPage.received_invit_name);
-                                LobbyPage.received_invit_name = "";
                                 showSubmitMenu("You Win!");
                                 break;
                             }
@@ -375,7 +377,6 @@ namespace _2e11
                                 timer.Stop();                            
                                 LobbyPage.deletePlayer(LobbyPage.main_user[0].Value);
                                 LobbyPage.deletePlayer(LobbyPage.received_invit_name);
-                                LobbyPage.received_invit_name = "";
                                 showSubmitMenu("You Lost...");
                                 break;
                             }
@@ -402,8 +403,9 @@ namespace _2e11
 
         private void showOverlay()
         {
-
-            this.restart_buttom.Visibility = Visibility.Visible;
+            if (!multiplayer) 
+                this.restart_buttom.Visibility = Visibility.Visible;
+            
             this.lose_buttom.Visibility = Visibility.Visible;
 
             this.lose_panel.Visibility = Visibility.Visible;
@@ -456,6 +458,7 @@ namespace _2e11
             this.lose_panel.Visibility = Visibility.Collapsed;
             lose_text_block.Visibility = Visibility.Collapsed;
             userTextHolder.Visibility = Visibility.Collapsed;
+            userTextHolder.Text = "";
             submit_text_block.Visibility = Visibility.Collapsed;
             submit_button.Visibility = Visibility.Collapsed;
             cancel_button.Visibility = Visibility.Collapsed;
@@ -469,6 +472,7 @@ namespace _2e11
             if (multiplayer)
             {
                 userTextHolder.Text = LobbyPage.received_invit_name;
+                LobbyPage.received_invit_name = "";
             }
 
             string nickname = userTextHolder.Text;
@@ -483,7 +487,6 @@ namespace _2e11
             postHighScore(nickname, game.getScore().ToString(), time_to_complete);
 
             hideSubmitMenu();
-            userTextHolder.Text = "Nickname";
             showOverlay();
         }
 
@@ -518,7 +521,6 @@ namespace _2e11
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
             hideSubmitMenu();
-            userTextHolder.Text = "Nickname";
             showOverlay();
         }
 

@@ -18,19 +18,6 @@ using Windows.UI.Xaml.Navigation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using Tweetinvi;
-using Tweetinvi.Core.Enum;
-using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces;
-using Tweetinvi.Core.Interfaces.Controllers;
-using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.oAuth;
-using Tweetinvi.Core.Interfaces.Streaminvi;
-using Tweetinvi.Json;
-using Geo = Tweetinvi.Geo;
-using SavedSearch = Tweetinvi.SavedSearch;
-using Stream = Tweetinvi.Stream;
 using System.Threading;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
@@ -140,12 +127,12 @@ namespace _2e11
         {
             try
             {
-                TwitterCredentials.SetCredentials("217422434-WOFI7qFmI3yQuQmuMuBLVcOWyqDMfeY9InJQX6SZ",
+       /*         TwitterCredentials.SetCredentials("217422434-WOFI7qFmI3yQuQmuMuBLVcOWyqDMfeY9InJQX6SZ",
                     "S0gAFOjwAqqQfdhXptjZ5DuudxFKX3zjTO0IQOtPLTxbr",
                     "JFgGb0OZfnKRlhf41NlhSZuiv",
                     "ABnIXNTs8HKPN4HMUp5I5unhKqMoctHJcvawyeQ5PNM5XtERxF");
 
-                Tweet.PublishTweet("HELLO POTATOES!!");
+                Tweet.PublishTweet("HELLO POTATOES!!"); */
             }
             catch
             {
