@@ -345,12 +345,12 @@ namespace _2e11
                 LobbyPage.getPlayer(LobbyPage.received_invit_name);
 
                 //Add condition to check for null after one minutes has passed
-                if (opponent == null)
+                if (tMins >= 1 && opponent == null)
                 {
-                    /*timer.Stop();
+                    timer.Stop();
                     LobbyPage.deletePlayer(LobbyPage.main_user[0].Value);
                     LobbyPage.received_invit_name = "";
-                    showSubmitMenu("You Win!");*/
+                    showSubmitMenu("You Win!");
                 }
                 else
                 {

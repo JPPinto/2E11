@@ -29,57 +29,51 @@
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
-         <Image Source="Assets/cover.jpg" Margin="-181,75,216,179"/>
+         <Image Source="Assets/cover.jpg" Margin="-181,78,216,173"/>
 
         </Grid>
         <TextBlock HorizontalAlignment="Left" Height="493" Margin="19,7.833,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="362" FontSize="20">
+        	<Run/>
+        	<LineBreak/>
         	<Run Text="App"/>
-        	<Run Text=" Developed by José Pinto"/>
+        	<Run Text=" Developed by"/>
+        	<LineBreak/>
+        	<Run Text="&#x9;"/>
+        	<Run Text="&#x9;"/>
+        	<Run Text="José Pinto"/>
+        	<LineBreak/>
+        	<Run Text="&#x9;"/>
+        	<Run Text="&#x9;"/>
+        	<Run Text="Eduardo Fernandes"/>
         	<LineBreak/>
         	<Run/>
         	<LineBreak/>
-        	<Run Text="GitHub Repository - "/>
-        	<Hyperlink NavigateUri="https://github.com/JPPinto/SDIS_2e11_WP_W8">
-        		<Run Text="Source Project"/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<LineBreak/>
+        	<LineBreak/>
+        	<LineBreak/>
+        	<Run FontFamily="Segoe UI, Tahoma, Arial, Arial Unicode MS, Microsoft Sans Serif, Lucida Sans Unicode" Text="GitHub Repository - "/>
+        	<Hyperlink Foreground="#FF6D6D6D" FontFamily="Segoe UI, Tahoma, Arial, Arial Unicode MS, Microsoft Sans Serif, Lucida Sans Unicode" NavigateUri="https://github.com/JPPinto/SDIS_2e11_WP_W8">
+        		<Run Foreground="White" Text="Source Project"/>
         	</Hyperlink>
-        	<LineBreak/>
-        	<Run/>
-        	<LineBreak/>
-        	<Run/>
-        	<LineBreak/>
-        	<Run/>
-        	<LineBreak/>
-        	<Run/>
-        	<LineBreak/>
-        	<Run/>
-        	<LineBreak/>
-        	<Run/>
-        	<LineBreak/>
-        	<Run/>
-        	<LineBreak/>
-        	<Run/>
-        	<LineBreak/>
-        	<Run/>
-        	<LineBreak/>
-        	<Run/>
         	<LineBreak/>
         	<Run/>
         	<LineBreak/>
         	<Run Text="Original "/>
         	<Run Text="Game - "/>
         	<Hyperlink NavigateUri="http://gabrielecirulli.github.io/2048/">
-        		<Run Text="Source"/>
+        		<Run Foreground="White" Text="Source"/>
         	</Hyperlink>
-        	<LineBreak/>
-        	<Run/>
-        	<LineBreak/>
-        	<Run/>
-        	<LineBreak/>
-        	<Run/>
-        	<LineBreak/>
-        	<Run/>
-        	<LineBreak/>
-        	<Run Text="June - 2014"/>
         </TextBlock>
     </Grid>
 </Page>
