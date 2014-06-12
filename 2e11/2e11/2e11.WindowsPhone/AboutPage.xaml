@@ -29,12 +29,55 @@
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+         <Image Source="Assets/cover.jpg" Margin="-181,75,216,179"/>
 
         </Grid>
         <TextBlock HorizontalAlignment="Left" Height="493" Margin="19,7.833,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="362" FontSize="20">
-        	<Run Text="STILL "/>
-        	<Run Text="TODO"/>
-        	<Run Text="!"/>
+        	<Run Text="Game Developed by José Pinto"/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run Text="GitHub Repository - "/>
+        	<Hyperlink NavigateUri="https://github.com/JPPinto/SDIS_2e11_WP_W8">
+        		<Run Text="Source Project"/>
+        	</Hyperlink>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+            <Run Text="Original "/>
+        	<Hyperlink NavigateUri="http://gabrielecirulli.github.io/2048/">
+        		<Run Text="Game"/>
+        	</Hyperlink>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run Text="June - 2014"/>
         </TextBlock>
     </Grid>
 </Page>

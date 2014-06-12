@@ -93,7 +93,6 @@ namespace _2e11
             {
                 LobbyPage.deletePlayer(LobbyPage.main_user[0].Value);
                 timer.Stop();
-                showSubmitMenu("You lost...");
             }
 
             player_against_text_block.Visibility = Visibility.Collapsed;
@@ -190,7 +189,7 @@ namespace _2e11
         {
             tiles = new BitmapImage[11];
 
-            for (int i = 0; i < 11; i++)
+            for (int i = 0; i < 12; i++)
             {
                 int value = (int)Math.Pow(2, i + 1);
 
