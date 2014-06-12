@@ -37,7 +37,6 @@ namespace _2e11
         {
             this.InitializeComponent();
             preloadImages();
-            //ImageTools.IO.Decoders.AddDecoder<GifDecoder>();
 
             game = new Game();
             animating = false;
@@ -90,14 +89,12 @@ namespace _2e11
             tSecs = 0;
 
             if (multiplayer)
-            {
                 LobbyPage.deletePlayer(LobbyPage.main_user[0].Value);
-                timer.Stop();
-            }
+            
 
             player_against_text_block.Visibility = Visibility.Collapsed;
-            multiplayer = false;
             player_against_text_block.Text = default_text;
+            multiplayer = false;
             base.OnNavigatedFrom(e);
         }
 
@@ -105,8 +102,8 @@ namespace _2e11
         {
             DataPackage requestData = e.Request.Data;
             requestData.Properties.Title = "My HighScore In 2E11";
-            requestData.Properties.Description = "My HighScore In 2E11";
-            requestData.SetText("I got " + game.score / 2 + " points in 2E11! How much can you get?");
+            requestData.Properties.Description = "My HighScore In 2E11:";
+            requestData.SetText("I got " + game.score / 2 + " points! How much can you get?");       
         }
 
         private void Image_Left_Tapped(object sender, TappedRoutedEventArgs e)
@@ -168,6 +165,7 @@ namespace _2e11
             {
                 if (multiplayer)
                     LobbyPage.playerWon(LobbyPage.main_user[0].Value, true);
+
                 timer.Stop();
                 showSubmitMenu("You Win!");
             }
@@ -187,7 +185,7 @@ namespace _2e11
 
         private void preloadImages()
         {
-            tiles = new BitmapImage[11];
+            tiles = new BitmapImage[12];
 
             for (int i = 0; i < 12; i++)
             {
@@ -346,6 +344,7 @@ namespace _2e11
             {
                 LobbyPage.getPlayer(LobbyPage.received_invit_name);
 
+                //Add condition to check for null after one minutes has passed
                 if (opponent == null)
                 {
                     /*timer.Stop();
@@ -477,8 +476,8 @@ namespace _2e11
             string nickname = userTextHolder.Text;
             if (nickname.Length == 0) return;
 
-            if (nickname.Length > 6)
-                nickname = nickname.Substring(0, 6);
+            if (nickname.Length > 5)
+                nickname = nickname.Substring(0, 5);
 
             string time_to_complete = ((tMins * 60) + tSecs).ToString();
             string temp_score = (game.getScore() / 2).ToString();

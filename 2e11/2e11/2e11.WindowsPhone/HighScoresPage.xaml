@@ -26,10 +26,21 @@
             <TextBlock Text="2E11" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,-0.167,0"/>
             <TextBlock Text="High Scores" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
         </StackPanel>
-        <ListBox x:Name="scores" HorizontalAlignment="Left" Height="452" Margin="10,48.833,0,0" Grid.Row="1" VerticalAlignment="Top" Width="380" Foreground="Black" Background="Black" FontFamily="Segoe WP Semibold"/>
-        <TextBlock HorizontalAlignment="Left" Margin="40,9.833,0,0" TextWrapping="Wrap" Text="Name&#x9;Score&#x9;Time To Complete" VerticalAlignment="Top" Height="34" Width="350" FontSize="20" FontFamily="Segoe UI Semibold" Grid.Row="1" FontStyle="Italic" FontWeight="Bold"/>
+        <ListBox x:Name="scores" HorizontalAlignment="Left" Height="437" Margin="10,63.833,0,0" Grid.Row="1" VerticalAlignment="Top" Width="380" Foreground="Black" Background="Black" FontFamily="Segoe WP Semibold">
+        </ListBox>
+        <TextBlock HorizontalAlignment="Left" Margin="10,9.833,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="54" Width="380" FontSize="20" FontFamily="Segoe UI Semibold" Grid.Row="1" FontStyle="Italic" FontWeight="Bold">
+        	<Run Text="Name&#x9;&#x9;Score&#x9;"/>
+        	<Run Text="     "/>
+        	<Run Text="Time"/>
+        	<LineBreak/>
+        	<Run Text="&#x9;&#x9;&#x9;To"/>
+        	<Run Text=" "/>
+        	<Run Text="Complete"/>
+        </TextBlock>
 
-        <Button Content="Refresh" HorizontalAlignment="Left" Margin="281,0,0,0" VerticalAlignment="Top" Click="About_Button_Click" BorderThickness="0,2" Width="99"/>
+        <Button Content="Refresh" HorizontalAlignment="Left" Margin="281,0,0,0" VerticalAlignment="Top" Click="Refresh_Button_Click" BorderThickness="0,2" Width="99"/>
+        <ProgressRing x:Name="fetchingRing" Margin="118,121.833,118,228" Grid.Row="1" Visibility="Collapsed" />
+        <TextBlock x:Name="fetchingText" Height="30" TextWrapping="Wrap" Text="Fetching High Scores..." Width="240" Foreground="White" FontSize="18" Margin="80,297.833,80,183" Grid.Row="1" TextAlignment="Center" FontFamily="Segoe WP Semibold" Visibility="Collapsed"/>
 
         <!--TODO: Content should be placed within the following grid-->
 

@@ -117,10 +117,11 @@ namespace _2e11
 
         private async void getHighScores()
         {
+            fetchingRing.IsActive = true;
+            fetchingRing.Visibility = Visibility.Visible;
+            fetchingText.Visibility = Visibility.Visible;
+
             var uri = new Uri(MainPage.URL + "scores");
-            HttpRequestMessage requestMessage = new HttpRequestMessage();
-            requestMessage.RequestUri = uri;
-            var httpClient = new HttpClient(new HttpClientHandler());
 
             HttpWebRequest request = HttpWebRequest.CreateHttp(uri);
             if (request.Headers == null)
@@ -145,6 +146,10 @@ namespace _2e11
             {
                 // Details in ex.Message and ex.HResult.       
             }
+
+            fetchingRing.Visibility = Visibility.Collapsed;
+            fetchingRing.IsActive = false;
+            fetchingText.Visibility = Visibility.Collapsed;
         }
 
         public void ParseScores(string jsonArrayAsString)
@@ -159,7 +164,7 @@ namespace _2e11
                 string value = jsonArray_Item.Value<string>("value");
                 string time = jsonArray_Item.Value<string>("time");
 
-                string totalString = position.ToString() + "." +  username + "\t     " + value + "\t\t" + time;
+                string totalString = position.ToString() + "." +  username + "\t\t" + value + "\t     " + time;
                 position++;
 
                 ListBoxItem item = new ListBoxItem();
@@ -176,7 +181,7 @@ namespace _2e11
             }
         }
 
-        private void About_Button_Click(object sender, RoutedEventArgs e)
+        private void Refresh_Button_Click(object sender, RoutedEventArgs e)
         {
             clearListBoxElements();
             getHighScores();
