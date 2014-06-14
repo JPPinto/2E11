@@ -467,6 +467,12 @@ namespace _2e11
         {
             if (!tapped && !multiplayer) return;
 
+            if (!App.IsInternetAvailable)
+            {
+                App.displayDialogue("No connection was found");
+                return;
+            }
+
             if (multiplayer)
             {
                 userTextHolder.Text = LobbyPage.received_invit_name;

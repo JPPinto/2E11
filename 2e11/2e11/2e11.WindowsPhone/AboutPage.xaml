@@ -35,42 +35,62 @@
         <TextBlock HorizontalAlignment="Left" Height="493" Margin="19,7.833,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="362" FontSize="20">
         	<Run/>
         	<LineBreak/>
+        	<Run Text="&#x9;"/>
+        	<LineBreak/>
+        	<Run/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run Text="&#x9;"/>
         	<Run Text="App"/>
         	<Run Text=" Developed by"/>
         	<LineBreak/>
         	<Run Text="&#x9;"/>
         	<Run Text="&#x9;"/>
-        	<Run Text="José Pinto"/>
+        	<Run Text="- "/>
+        	<Hyperlink Foreground="#FF6D6D6D" FontFamily="Segoe UI, Tahoma, Arial, Arial Unicode MS, Microsoft Sans Serif, Lucida Sans Unicode" NavigateUri="https://github.com/JPPinto">
+        		<Run Foreground="White" Text="José Pinto"/>
+        	</Hyperlink>
         	<LineBreak/>
         	<Run Text="&#x9;"/>
         	<Run Text="&#x9;"/>
-        	<Run Text="Eduardo Fernandes"/>
+        	<Run Text="- "/>
+        	<Hyperlink Foreground="#FF6D6D6D" FontFamily="Segoe UI, Tahoma, Arial, Arial Unicode MS, Microsoft Sans Serif, Lucida Sans Unicode" NavigateUri="https://github.com/edlf">
+        		<Run Foreground="White" Text="Eduardo Fernandes"/>
+        	</Hyperlink>
         	<LineBreak/>
-        	<Run/>
+        	<Run Text="&#x9;With help of"/>
         	<LineBreak/>
-        	<LineBreak/>
-        	<Run/>
-        	<LineBreak/>
-        	<Run/>
-        	<LineBreak/>
-        	<Run/>
-        	<LineBreak/>
-        	<Run/>
-        	<LineBreak/>
-        	<Run/>
-        	<LineBreak/>
-        	<LineBreak/>
-        	<LineBreak/>
-        	<LineBreak/>
-        	<Run FontFamily="Segoe UI, Tahoma, Arial, Arial Unicode MS, Microsoft Sans Serif, Lucida Sans Unicode" Text="GitHub Repository - "/>
-        	<Hyperlink Foreground="#FF6D6D6D" FontFamily="Segoe UI, Tahoma, Arial, Arial Unicode MS, Microsoft Sans Serif, Lucida Sans Unicode" NavigateUri="https://github.com/JPPinto/SDIS_2e11_WP_W8">
-        		<Run Foreground="White" Text="Source Project"/>
+        	<Run Text="&#x9;&#x9;- "/>
+            <Hyperlink Foreground="#FF6D6D6D" FontFamily="Segoe UI, Tahoma, Arial, Arial Unicode MS, Microsoft Sans Serif, Lucida Sans Unicode" NavigateUri="https://github.com/jpdias">
+        		<Run Foreground="White" Text="JP Dias"/>
         	</Hyperlink>
         	<LineBreak/>
         	<Run/>
         	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<LineBreak/>
+        	<Run FontFamily="Segoe UI, Tahoma, Arial, Arial Unicode MS, Microsoft Sans Serif, Lucida Sans Unicode"/>
+        	<LineBreak/>
+        	<Run FontFamily="Segoe UI, Tahoma, Arial, Arial Unicode MS, Microsoft Sans Serif, Lucida Sans Unicode" Text="GitHub Repository - "/>
+        	<Hyperlink Foreground="#FF6D6D6D" FontFamily="Segoe UI, Tahoma, Arial, Arial Unicode MS, Microsoft Sans Serif, Lucida Sans Unicode" NavigateUri="https://github.com/JPPinto/SDIS_2e11_W_8.1">
+        		<Run Foreground="White" Text="Source Project"/>
+        	</Hyperlink>
+        	<LineBreak/>
         	<Run Text="Original "/>
-        	<Run Text="Game - "/>
+        	<Run Text="Game"/>
+        	<Run Text="/Idea"/>
+        	<Run Text=" - "/>
         	<Hyperlink NavigateUri="http://gabrielecirulli.github.io/2048/">
         		<Run Foreground="White" Text="Source"/>
         	</Hyperlink>

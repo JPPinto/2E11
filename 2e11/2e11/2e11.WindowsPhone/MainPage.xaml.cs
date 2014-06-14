@@ -19,6 +19,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Threading;
+using Windows.UI.Popups;
+using Windows.Networking.Connectivity;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -147,6 +149,10 @@ namespace _2e11
 
         private void HighScores_Button_Click(object sender, RoutedEventArgs e)
         {
+            if (!App.IsInternetAvailable) {
+                App.displayDialogue("No connection was found");
+                return;
+            }
             Frame.Navigate(typeof(HighScoresPage));
         }
     }
