@@ -149,7 +149,7 @@ namespace _2e11
                         checkForInvits(values, username);
                     else
                         sendInvitation(values);
-                    //TODO CHECK IF USERNAME ALREADY EXISTS
+                    //Server allows same username scores (the same person can submmit multiple scores)
                 }
             }
             catch

@@ -164,17 +164,45 @@ namespace _2e11
                 string value = jsonArray_Item.Value<string>("value");
                 string time = jsonArray_Item.Value<string>("time");
 
-                string totalString = position.ToString() + "." +  username + "\t\t" + value + "\t     " + time;
+                string usernamePlusNumber = position.ToString() + "." +  username;
                 position++;
+                int time_num, time_mins, time_secs;
+                int.TryParse(time, out time_num);
+
+                time_mins = time_num / 60;
+                time_secs = time_num % 60;
+
+                time = (time_mins.ToString().Length == 1 ? "0" + time_mins.ToString() : time_mins.ToString()) + ":" + (time_secs.ToString().Length == 1 ? "0" + time_secs.ToString() : time_secs.ToString());
+
+                if (position > 11)
+                    break;
 
                 ListBoxItem item = new ListBoxItem();
 
-                item.Content = totalString;
+                item.Content = usernamePlusNumber;
                 item.FontSize = 20;
                 item.FontFamily = new FontFamily("Segoe WP Semibold");
                 item.Foreground = new SolidColorBrush(Colors.White);
 
-                scores.Items.Add(item);
+                scores_name.Items.Add(item);
+
+                item = new ListBoxItem();
+                item.Content = value;
+                item.FontSize = 20;
+                item.FontFamily = new FontFamily("Segoe WP Semibold");
+                item.Foreground = new SolidColorBrush(Colors.White);
+                item.HorizontalContentAlignment = Windows.UI.Xaml.HorizontalAlignment.Center;
+
+                scores_value.Items.Add(item);
+
+                item = new ListBoxItem();
+                item.Content = time;
+                item.FontSize = 20;
+                item.FontFamily = new FontFamily("Segoe WP Semibold");
+                item.Foreground = new SolidColorBrush(Colors.White);
+                item.HorizontalContentAlignment = Windows.UI.Xaml.HorizontalAlignment.Center;
+
+                scores_time.Items.Add(item);
 
                 //Be careful, you take the next from the current item, not from the JArray object.
                 jsonArray_Item = jsonArray_Item.Next;
@@ -189,9 +217,33 @@ namespace _2e11
 
         private void clearListBoxElements()
         {
-            while (scores.Items.Count != 0)
-                for (int i = 0; i < scores.Items.Count; i++)
-                    scores.Items.RemoveAt(i);
+            while (scores_name.Items.Count != 0)
+                for (int i = 0; i < scores_name.Items.Count; i++) {
+                    scores_name.Items.RemoveAt(i);
+                    scores_value.Items.RemoveAt(i);
+                    scores_time.Items.RemoveAt(i);
+                }
+        }
+
+        private void scores_name_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int current_index = scores_name.SelectedIndex;
+            scores_time.SelectedIndex = current_index;
+            scores_value.SelectedIndex = current_index;
+        }
+
+        private void scores_value_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int current_index = scores_value.SelectedIndex;
+            scores_name.SelectedIndex = current_index;
+            scores_time.SelectedIndex = current_index;
+        }
+
+        private void scores_time_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int current_index = scores_time.SelectedIndex;
+            scores_name.SelectedIndex = current_index;
+            scores_value.SelectedIndex = current_index;
         }
     }
 }
