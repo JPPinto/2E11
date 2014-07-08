@@ -482,8 +482,8 @@ namespace _2e11
             string nickname = userTextHolder.Text;
             if (nickname.Length == 0) return;
 
-            if (nickname.Length > 5)
-                nickname = nickname.Substring(0, 5);
+            if (nickname.Length > 7)
+                nickname = nickname.Substring(0, 7);
 
             string time_to_complete = ((tMins * 60) + tSecs).ToString();
             string temp_score = (game.getScore() / 2).ToString();
