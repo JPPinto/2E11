@@ -42,7 +42,7 @@
         	<Run Text="    (mm:ss)"/>
         </TextBlock>
 
-        <Button Content="Refresh" HorizontalAlignment="Left" Margin="281,0,0,0" VerticalAlignment="Top" Click="Refresh_Button_Click" BorderThickness="0,2" Width="99"/>
+        <Button x:Name="refresh_button" Content="Refresh" HorizontalAlignment="Left" Margin="281,0,0,0" VerticalAlignment="Top" Click="Refresh_Button_Click" BorderThickness="0,2" Width="99"/>
         <ProgressRing x:Name="fetchingRing" Margin="118,121.833,118,228" Grid.Row="1" Visibility="Collapsed" />
         <TextBlock x:Name="fetchingText" Height="30" TextWrapping="Wrap" Text="Fetching High Scores..." Width="240" Foreground="White" FontSize="18" Margin="80,297.833,80,183" Grid.Row="1" TextAlignment="Center" FontFamily="Segoe WP Semibold" Visibility="Collapsed"/>
         <Rectangle DataContext="-------TOP 10 SCORES-------" HorizontalAlignment="Left" Height="47" Margin="0,463.833,0,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" Width="400" Fill="Black"/>

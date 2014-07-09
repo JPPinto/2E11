@@ -117,6 +117,7 @@ namespace _2e11
 
         private async void getHighScores()
         {
+            refresh_button.Visibility = Visibility.Collapsed;
             fetchingRing.IsActive = true;
             fetchingRing.Visibility = Visibility.Visible;
             fetchingText.Visibility = Visibility.Visible;
@@ -150,6 +151,7 @@ namespace _2e11
             fetchingRing.Visibility = Visibility.Collapsed;
             fetchingRing.IsActive = false;
             fetchingText.Visibility = Visibility.Collapsed;
+            refresh_button.Visibility = Visibility.Visible;
         }
 
         public void ParseScores(string jsonArrayAsString)
