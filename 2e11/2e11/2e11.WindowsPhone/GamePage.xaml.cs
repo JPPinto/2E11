@@ -412,7 +412,7 @@ namespace _2e11
             this.lose_share_text_block.Visibility = Visibility.Visible;
 
             this.sharefb_buttom.Visibility = Visibility.Visible;
-            this.sharetw_buttom.Visibility = Visibility.Visible;
+
         }
 
         private void hideOverlay()
@@ -432,7 +432,8 @@ namespace _2e11
             this.lose_share_text_block.Visibility = Visibility.Collapsed;
 
             this.sharefb_buttom.Visibility = Visibility.Collapsed;
-            this.sharetw_buttom.Visibility = Visibility.Collapsed;
+            command_bar.Visibility = Visibility.Visible;
+
         }
 
         private void showSubmitMenu(string gameState)
@@ -440,6 +441,7 @@ namespace _2e11
 
             lose_text_block.Text = gameState;
 
+            command_bar.Visibility = Visibility.Collapsed;
             limit_text_block.Visibility = Visibility.Visible;
             this.lose_panel.Visibility = Visibility.Visible;
             lose_text_block.Visibility = Visibility.Visible;

@@ -21,7 +21,7 @@
     </Grid>
 
     <Page.BottomAppBar>
-        <CommandBar ClosedDisplayMode="Minimal">
+        <CommandBar x:Name="command_bar" ClosedDisplayMode="Minimal">
             <CommandBar.PrimaryCommands>
                 <AppBarButton x:Name="Back" Label="Back" Icon="Back" Click="AppBarButton_Click"/>
             </CommandBar.PrimaryCommands>

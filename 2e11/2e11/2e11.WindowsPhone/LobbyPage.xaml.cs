@@ -64,6 +64,7 @@ namespace _2e11
             text_changed = false;
             received_invit_name = "";
 
+            command_bar.Visibility = Visibility.Collapsed;
             progress.IsActive = true;
             progress.Visibility = Visibility.Visible;
             waiting_text_block.Visibility = Visibility.Visible;
@@ -101,6 +102,7 @@ namespace _2e11
             progress.Visibility = Visibility.Collapsed;
             progress.IsActive = false;
             waiting_text_block.Visibility = Visibility.Collapsed;
+            command_bar.Visibility = Visibility.Visible;
 
             if (received_invit_name == "")
             {
